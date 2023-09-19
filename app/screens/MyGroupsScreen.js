@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import loginImage from '../assets/images/login.png'; // Replace with your login image
+import GroupComponent from '../components/shared/GroupComponent';
+ // Replace with your login image
 
-const LoginScreen = ({ navigation }) => {
-  const handleLogin = () => {
-    // Implement your login logic here, e.g., Google Authentication
-    // Once logged in, navigate to the Home screen or the main part of your app
-    navigation.navigate('Main'); // Replace 'Home' with the actual screen name
-  };
-  
-
+const GroupListScreen = ({ navigation }) => {
  
-
   return (
     <View style={styles.container}>
-      <Image source={loginImage} />
-      <TouchableOpacity onPress={handleLogin}>
-        <View style={styles.loginButton}>
-          <Text style={styles.buttonText}>Login with Google</Text>
-        </View>
-      </TouchableOpacity>
+        <Text style={styles.buttonText}> My Groups</Text>
+        <GroupComponent style={styles.groupComponent} name="GGB Dance" upcomingEvents={2}/>
     </View>
   );
 };
@@ -42,9 +31,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonText: {
-    color: 'white', // Button text color
+    color: 'black', // Button text color
     fontSize: 18,
   },
+  groupComponent: {
+    width: 200,
+    height: 200,
+  }
 });
 
-export default LoginScreen;
+export default GroupListScreen;
