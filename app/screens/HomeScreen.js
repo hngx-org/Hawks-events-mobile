@@ -8,6 +8,11 @@ import event from '../data/event';
 const HomeScreen = ({ navigation }) => {
 
   const [switchButton, setSwitchButton] = useState(false);
+    const handleCreateEventPress = () => {
+        // Navigate to the Create Event Screen when the button is pressed
+        navigation.navigate('Create Event');
+      };
+
   return (
     //  <View style={styles.container}>
           <View style={styles.container}>
@@ -39,6 +44,13 @@ const HomeScreen = ({ navigation }) => {
       <Text style={{fontSize: 48, color:'white'}}>+</Text>
     </TouchableOpacity>
           <EventComponent event={event}/>
+
+          <TouchableOpacity
+            style={styles.floatingButton}
+            onPress={handleCreateEventPress}
+        >
+        <Text style={styles.floatingButtonText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -78,7 +90,22 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderRadius: 50,
     paddingHorizontal: 15,
-    right: 30
+    right: 30},
+  floatingButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FF9405',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+  },
+  floatingButtonText: {
+    fontSize: 30,
+    color: 'white',
   }
 });
 
