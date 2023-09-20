@@ -4,11 +4,22 @@ import GroupComponent from '../components/shared/GroupComponent';
  // Replace with your login image
 
 const GroupListScreen = ({ navigation }) => {
+
+  const handleCreateGroupPress = () => {
+    // Navigate to the Create Event Screen when the button is pressed
+    navigation.navigate('Create Group');
+  };
  
   return (
     <View style={styles.container}>
         <Text style={styles.buttonText}> My Groups</Text>
         <GroupComponent style={styles.groupComponent} name="GGB Dance" upcomingEvents={2}/>
+        <TouchableOpacity
+            style={styles.floatingButton}
+            onPress={handleCreateGroupPress}
+        >
+        <Text style={styles.floatingButtonText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -33,6 +44,22 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'black', // Button text color
     fontSize: 18,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FF9405',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+  },
+  floatingButtonText: {
+    fontSize: 30,
+    color: 'white',
   },
   groupComponent: {
     width: 200,
