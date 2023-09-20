@@ -7,6 +7,7 @@ import event from '../data/event';
 
 const HomeScreen = ({ navigation }) => {
 
+  // user can switch between everyone and friends
   const [switchButton, setSwitchButton] = useState(false);
     const handleCreateEventPress = () => {
         // Navigate to the Create Event Screen when the button is pressed
@@ -49,10 +50,12 @@ const HomeScreen = ({ navigation }) => {
     </TouchableOpacity> */}
     {switchButton? 
     <>
+    {/* when a user is viewing the Everyone event */}
           {mappedEvent?.map((each, index)=> <EventComponent key={index} event={each}/>)}
           </>
           :
           <>
+          {/* when a user views friends event */}
           {mappedEvent?.map((each, index)=> <EventComponent key={index} event={each}/>)}
           </>
 }
