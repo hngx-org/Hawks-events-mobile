@@ -13,6 +13,10 @@ const HomeScreen = ({ navigation }) => {
         navigation.navigate('Create Event');
       };
 
+    const [mappedEvent, setMappedEvent] = useState([
+      event, event, event
+    ])
+
   return (
     //  <View style={styles.container}>
           <View style={styles.container}>
@@ -40,11 +44,18 @@ const HomeScreen = ({ navigation }) => {
     </View>}
 
     <Text style={{color: '#85909C', marginTop: 30, marginBottom: 20}}>Happening Now</Text>
-    <TouchableOpacity style={styles.plusButton}>
+    {/* <TouchableOpacity style={styles.plusButton}>
       <Text style={{fontSize: 48, color:'white'}}>+</Text>
-    </TouchableOpacity>
-          <EventComponent event={event}/>
-
+    </TouchableOpacity> */}
+    {switchButton? 
+    <>
+          {mappedEvent?.map((each, index)=> <EventComponent key={index} event={each}/>)}
+          </>
+          :
+          <>
+          {mappedEvent?.map((each, index)=> <EventComponent key={index} event={each}/>)}
+          </>
+}
           <TouchableOpacity
             style={styles.floatingButton}
             onPress={handleCreateEventPress}
