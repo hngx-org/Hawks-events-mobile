@@ -12,7 +12,7 @@ function MainScreen() {
   return (
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="My Groups" component={GroupListScreen} />
+        <Tab.Screen name="My Groups" component={GroupListScreen} options={{headerShown: false}}/>
         <Tab.Screen name="Schedule" component={ScheduleScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
