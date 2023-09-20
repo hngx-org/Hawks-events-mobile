@@ -1,4 +1,12 @@
 {
-  "name": "WetinDeySupMobile",
-  "displayName": "WetinDeySupMobile"
+  "expo": {
+    "name": "WetinDeySupMobile",
+    "slug": "wetin-dey-sup-mobile",
+    "version": "1.0.2",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "experiments": {
+      "tsconfigPaths": true
+    }
+  }
 }
