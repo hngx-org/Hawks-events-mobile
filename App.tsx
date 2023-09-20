@@ -1,7 +1,8 @@
 // App.js
-import React, {useEffect} from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './app/navigation/AppNavigator';
+import { AppRegistry, Platform } from 'react-native';
 
 
 
@@ -16,4 +17,4 @@ const App = () => {
   );
 };
 
-export default App;
+AppRegistry.registerComponent('main', () => App);
