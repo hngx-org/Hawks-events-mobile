@@ -3,6 +3,8 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 //import loginImage from '../assets/svgs/login-illustration.svg'; // Replace with your login image
 import { createStackNavigator } from '@react-navigation/stack';
 import userIcon from '../assets/images/userIcon.png';
+
+
 const SettingsScreen = ({ navigation }) => {
   const Stack= createStackNavigator()
   const handleLogin = () => {
