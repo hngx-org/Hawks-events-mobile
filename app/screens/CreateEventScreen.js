@@ -7,6 +7,7 @@ import DateSelect from '../components/DateSelect';
 import { phoneHeight } from '../utils/dimensions';
 import AppSelect from '../components/shared/AppSelect';
 import AppButton from '../components/shared/AppButton';
+import AppModal from '../components/Modal';
 
 
 const CreateEventScreen = ({ navigation }) => {
@@ -16,6 +17,8 @@ const CreateEventScreen = ({ navigation }) => {
     { label: "Female", value: "female" },
     { label: "Prefer Not to Say", value: "neutral" },
   ]);
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <ScrollView>
     <View style={styles.container}>
@@ -25,14 +28,16 @@ const CreateEventScreen = ({ navigation }) => {
           <DateSelect label='Start Date'/>
           <AppInput label='Location' />
           <AppSelect label='Select Group' options={options} value={value} setOptions={setOptions} setValue={setValue}/>
-          <AppButton title='Create' />
+          <AppButton onPress={() => {
+            setModalVisible(true)
+          }} title='Create' />
+<AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='Go Back' msg='Event created successfully' />
     </View>
    {/*  <View style={{
     paddingHorizontal: 20,
     width: '100%'
     }}>
     </View> */}
-
     </View>
     </ScrollView>
   );

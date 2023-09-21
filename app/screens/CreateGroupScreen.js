@@ -5,16 +5,22 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { phoneHeight } from '../utils/dimensions';
 import AppButton from '../components/shared/AppButton';
+import AppModal from '../components/Modal';
 
 
 const CreateGroupScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
  
   return (
     <ScrollView>
     <View style={styles.container}>
     <View style={styles.container2}>
           <AppInput label='Group Name' />
-          <AppButton title='Create' />
+          <AppButton onPress={() => {
+            setModalVisible(true)
+          }} title='Create' />
+<AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='View Reward' msg='Group created successfully' />
+
     </View>
    {/*  <View style={{
     paddingHorizontal: 20,
