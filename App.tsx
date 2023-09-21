@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './app/navigation/AppNavigator';
 import * as SplashScreen from 'expo-splash-screen';
+import {Auth0Provider} from 'react-native-auth0';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -43,11 +44,21 @@ const App = () => {
 
 
   return (
+<<<<<<< Updated upstream
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
     </View>
+=======
+    // <Auth0Provider domain={"dev-z3pimpy9.us.auth0.com"} clientId={"LS89s0rDcsvg0vXYj4CklULB2AVfNhpM"}>
+      <View style={{flex:1}} onLayout={onLayoutRootView}>
+          <NavigationContainer>
+              <AppNavigator />
+          </NavigationContainer>
+      </View>
+    // </Auth0Provider>
+>>>>>>> Stashed changes
   );
 };
 

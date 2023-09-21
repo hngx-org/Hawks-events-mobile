@@ -3,13 +3,23 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 //import loginImage from '../assets/svgs/login-illustration.svg'; // Replace with your login image
 import {createStackNavigator} from '@react-navigation/stack';
 import userIcon from '../assets/images/userIcon.png';
+import {useAuth0} from 'react-native-auth0';
 
+<<<<<<< Updated upstream
 const SettingsScreen = ({navigation}) => {
   const Stack = createStackNavigator();
   const handleLogin = () => {
+=======
+
+const SettingsScreen = ({navigation}) => {
+  const {user, error, clearSession} = useAuth0();
+  console.log(error);
+  const handleLogout = async () => {
+>>>>>>> Stashed changes
     // Implement your login logic here, e.g., Google Authentication
     // Once logged in, navigate to the Home screen or the main part of your app
-    navigation.navigate('Home'); // Replace 'Home' with the actual screen name
+    await clearSession();
+    navigation.navigate('Login'); // Replace 'Home' with the actual screen name
   };
 
   return (
@@ -19,6 +29,7 @@ const SettingsScreen = ({navigation}) => {
           <Image style={styles.image} source={userIcon} />
         </View>
         <View style={styles.displayInner}>
+<<<<<<< Updated upstream
           <Text style={styles.nameText}>Gbemisola Owolabi</Text>
           <Text style={styles.emailText}>owolabigbemisola2406@gmail.com</Text>
         </View>
@@ -29,7 +40,18 @@ const SettingsScreen = ({navigation}) => {
           tintColor={'red'}
         />
         <Text>Logout</Text>
+=======
+          <Text style={styles.nameText}>Hello</Text>
+          <Text style={styles.emailText}>owolabigbemisola2406@gmail.com</Text>
+        </View>
+>>>>>>> Stashed changes
       </View>
+      <TouchableOpacity onPress={handleLogout}>
+        <View style={styles.logout}>
+          <Image source={require('../assets/images/logout.png')} />
+          <Text style={styles.logoutText}>Logout</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -75,6 +97,12 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     letterSpacing: 0.0025,
     textAlign: 'left',
+<<<<<<< Updated upstream
+=======
+  },
+  logoutText: {
+    color: 'red',
+>>>>>>> Stashed changes
   },
 });
 
