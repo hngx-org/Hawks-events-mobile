@@ -6,18 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const EventComponent = ({ event }) => {
-  const navigation = useNavigation();
-  const handleEventPress = () => {
-    // Navigate to the group details screen when clicked
-    navigation.navigate('Event Details');
-  };
   // Variable for the share icon
   const shareIcon = 'https://img.icons8.com/windows/32/share-rounded.png';
   // Variable for the like icon
   const likeIcon = 'https://img.icons8.com/ios/50/facebook-like--v1.png';
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleEventPress}>
+    <View style={styles.container}>
       {/* Event name */}
       <View style={styles.eventNameContainer}>
         <Text style={styles.eventName}>{event.name}</Text>
@@ -34,7 +29,7 @@ const EventComponent = ({ event }) => {
         <Text style={styles.attendingCount}> <Image source={require('../../assets/images/people.png')}/> {event.attending} attending</Text>
         <Image source={{uri: likeIcon}} style={styles.icon} />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -44,8 +39,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     height: 'auto',
-    paddingTop: 20,
-    paddingBottom: 30,
+    paddingTop: 15,
+    paddingBottom: 20,
     paddingHorizontal: 25,
     // Add the line below if we want to add a shadow to the event cards
     // shadowOffset: {width: 0, height: 0},
@@ -57,9 +52,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 7,
   },
   eventName: {
+    textTransform: 'capitalize',
     fontFamily: 'Poppins',
     fontWeight: 'bold',
     fontSize: 26,
