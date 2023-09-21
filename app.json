@@ -1,12 +1,18 @@
 {
   "expo": {
-    "name": "WetinDeySupMobile",
+    "name": "main",
     "slug": "wetin-dey-sup-mobile",
     "version": "1.0.2",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "experiments": {
       "tsconfigPaths": true
+    },
+    "splash": {
+      "image": "./app/assets/images/splash-screen.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#123155"
     }
   }
+  
 }
