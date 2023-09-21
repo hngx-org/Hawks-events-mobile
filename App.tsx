@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 // App.js
-import React, {useCallback, useState, useEffect} from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './app/navigation/AppNavigator';
@@ -42,10 +43,10 @@ const App = () => {
 
 
   return (
-    <View style={{flex:1}} onLayout={onLayoutRootView}>
-        <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
     </View>
   );
 };
