@@ -51,21 +51,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   width: '100%'
   },
-  image: {
-    width: 200, // Adjust the width as needed
-    height: 200, // Adjust the height as needed
-    resizeMode: 'contain', // You can adjust the resizeMode as needed
-  },
-  loginButton: {
-    backgroundColor: '#007bff', // Replace with your preferred button color
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
-  },
-  buttonText: {
-    color: 'black', // Button text color
-    fontSize: 18,
-  },
+  
 });
 
 export default CreateEventScreen;
