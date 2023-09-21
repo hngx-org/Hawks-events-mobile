@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import loginImage from '../assets/images/login.png'; // Replace with your login image
-import {useAuth0} from 'react-native-auth0';
+
 
 
 const LoginScreen = ({ navigation }) => {
-  const {authorize} = useAuth0();
 
-  console.log(useAuth0);
+
   const handleLogin = async () => {
     // Implement your login logic here, e.g., Google Authentication
     // Once logged in, navigate to the Home screen or the main part of your app
-    await authorize();
     navigation.navigate('Main'); // Replace 'Home' with the actual screen name
 
   };

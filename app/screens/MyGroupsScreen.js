@@ -47,7 +47,7 @@ const GroupListScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar />
       <View style={styles.searchBar}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={require('../assets/images/back.png')} style={{marginRight: 10, width: 25, height: 25}} />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
