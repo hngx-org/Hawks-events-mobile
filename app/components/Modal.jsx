@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  Image,
+} from 'react-native';
 import AppButton from './shared/AppButton';
 
 const AppModal = ({
@@ -20,6 +28,10 @@ const AppModal = ({
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Image
+              source={require('../assets/svgs/success.gif')}
+              style={{width: 120, height: 120}}
+            />
             <Text style={styles.success}>Successful</Text>
             <Text style={styles.modalText}>{msg}</Text>
             <View style={{width: '80%'}}>
