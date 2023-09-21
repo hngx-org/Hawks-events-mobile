@@ -1,50 +1,149 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar, FlatList, Image } from 'react-native';
+import { Octicons, Ionicons } from '@expo/vector-icons';
+import myGroup from '../data/group/myGroup';
+import exploreGroup from '../data/group/exploreGroups';
 import GroupComponent from '../components/shared/GroupComponent';
- // Replace with your login image
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+
+const ExploreGroup = () => {
+  return (
+    <View style={styles.groupComponent}>
+    <FlatList
+      data={exploreGroup}
+      renderItem={({ item }) => <GroupComponent group={item}
+      />}
+    />
+  </View>
+  )
+}
+
+const MyGroup = () => {
+  return (
+    <View style={styles.groupComponent}>
+    <FlatList
+      data={myGroup}
+      renderItem={({ item }) => <GroupComponent group={item}
+      />}
+    />
+  </View>
+  )
+}
+
 
 const GroupListScreen = ({ navigation }) => {
+
+  const [showExploreGroup, setShowExploreGroup] = useState(true)
 
   const handleCreateGroupPress = () => {
     // Navigate to the Create Event Screen when the button is pressed
     navigation.navigate('Create Group');
   };
- 
+
+
   return (
-    <View style={styles.container}>
-        <Text style={styles.buttonText}> My Groups</Text>
-        <GroupComponent style={styles.groupComponent} name="GGB Dance" upcomingEvents={2}/>
-        <TouchableOpacity
-            style={styles.floatingButton}
-            onPress={handleCreateGroupPress}
-        >
+    <SafeAreaView style={styles.container}>
+      <StatusBar />
+      <View style={styles.searchBar}>
+        <TouchableOpacity>
+          <Image source={require('../assets/images/back.png')} style={{marginRight: 10, width: 25, height: 25}} />
+        </TouchableOpacity>
+        <View style={styles.inputContainer}>
+          <TextInput placeholder="Search Group" style={styles.input} />
+          <TouchableOpacity>
+            <Image source={require('../assets/images/search.png')}  style={{width:15, height:15}} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={[styles.button, showExploreGroup? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(true)} >
+          <Text style={[styles.buttonText, showExploreGroup ? styles.exploreButtonText : styles.myGroupButtonText]}>Explore Group</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, !showExploreGroup? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(false)}>
+          <Text style={[styles.buttonText, !showExploreGroup ? styles.exploreButtonText : styles.myGroupButtonText]}>My Group</Text>
+        </TouchableOpacity>
+      </View>
+      {showExploreGroup ? (<ExploreGroup/> ): ( <MyGroup/>)}
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={handleCreateGroupPress}
+      >
         <Text style={styles.floatingButtonText}>+</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#FAFAFA',
     alignItems: 'center',
+    padding: 10
   },
-  image: {
-    width: 200, // Adjust the width as needed
-    height: 200, // Adjust the height as needed
-    resizeMode: 'contain', // You can adjust the resizeMode as needed
+  searchBar: {
+    width: '100%',
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(230, 233, 240, 1)',
+    paddingHorizontal: 10
   },
-  loginButton: {
-    backgroundColor: '#007bff', // Replace with your preferred button color
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
+  inputContainer: {
+    height: 32,
+    width: '90%',
+    borderWidth: 1,
+    borderColor: 'rgba(230, 233, 240, 1)',
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15
+  },
+  input: {
+    flex: 1,
+    padding: 5,
+    fontWeight: '400',
+    fontSize: 12
+  },
+  buttonContainer: {
+    width: '100%',
+    height: 60,
+    backgroundColor: 'white',
+    borderRadius: 30,
+    justifyContent:'space-between',
+    alignItems:'center',
+    flexDirection:'row',
+    padding:10,
+    marginTop : 10
+  },
+  button: {
+    backgroundColor: '#FF9405',
+    width: '50%',
+    height: 44,
+    borderRadius: 60,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  exploreButton: {
+    backgroundColor: '#FF9405',
+  },
+  myGroupButton: {
+    backgroundColor: '#fff'
   },
   buttonText: {
-    color: 'black', // Button text color
-    fontSize: 18,
+    fontWeight: '700',
+    color: 'white'
+  },
+  exploreButtonText: {
+    color: '#fff'
+  },
+  myGroupButtonText: {
+    color: '#000'
   },
   floatingButton: {
     position: 'absolute',
@@ -63,8 +162,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   groupComponent: {
-    width: 200,
-    height: 200,
+    width: '100%',
   }
 });
 
