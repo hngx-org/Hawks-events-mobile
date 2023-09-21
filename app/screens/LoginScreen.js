@@ -19,15 +19,15 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
         <View style={styles.signupButton}>
           <Image source={require('../assets/images/google-icon.png')} style={styles.googleIcon} />
-          <Text style={styles.buttonText}>Signup with Google</Text>
+          <Text style={styles.buttonText}>Continue with Google</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
+      {/* <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
         <View style={styles.loginButton}>
           <Image source={require('../assets/images/google-icon.png')} style={styles.googleIcon} />
           <Text style={styles.buttonText}>Login with Google</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     lineHeight: 42,
     letterSpacing: 0.25,
-    alignSelf: 'right',
+    alignSelf: 'flex-start',
     marginTop: 40,
   },
   descriptionText: {
@@ -55,8 +55,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     letterSpacing: 0.5,
     marginTop: 20,
-    alignSelf: 'right',
-
+    alignSelf: 'flex-start',
   },
   touchable: {
     width: '100%',
