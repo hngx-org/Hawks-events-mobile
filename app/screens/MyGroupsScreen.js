@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar, FlatList, Image } from 'react-native';
 import { Octicons, Ionicons } from '@expo/vector-icons';
