@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 import {AntDesign} from '@expo/vector-icons';
-import search from '../assets/images/search.png';
+import search from '../assets/images/SearchIcons.png';
 import {events} from '../data/event';
 import { groups } from '../data/groups';
 
@@ -36,10 +36,9 @@ const HomeScreen = ({navigation}) => {
     //  <View style={styles.container}>
     <View style={styles.container}>
       <View style={{flexDirection: 'row'}}>
-        <TextInput placeholder={`Hi ${user.nickname}`} style={styles.searchInput} />
+        <TextInput placeholder={`Hi Esther`} style={styles.searchInput} />
         <Image source={search} />
       </View>
-
       {switchButton ? (
         <View
           style={{
@@ -88,11 +87,9 @@ const HomeScreen = ({navigation}) => {
         </View>
       )}
 
-          
-
-      <Text style={{color: '#85909C', marginTop: 30, marginBottom: 20}}>
+      {/* <Text style={{color: '#85909C', marginTop: 30, marginBottom: 20}}>
         Happening Now
-      </Text>
+      </Text> */}
       {/* <TouchableOpacity style={styles.plusButton}>
       <Text style={{fontSize: 48, color:'white'}}>+</Text>
     </TouchableOpacity> */}
@@ -133,6 +130,7 @@ const HomeScreen = ({navigation}) => {
           />
         </>
       )}
+      {/* // </ScrollView> */}
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={handleCreateEventPress}>
