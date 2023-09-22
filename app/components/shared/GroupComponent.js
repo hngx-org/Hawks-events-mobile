@@ -5,11 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import {events} from '../../data/event';
 
 const GroupComponent = (props) => {
-  console.log(props.group);
   const groupEvents = events.filter((event) => props.group.events.includes(event.id));
-  console.log(groupEvents);
   const { name, members } = props.group;
-  console.log(name, members)
 
   const navigation = useNavigation();
 
