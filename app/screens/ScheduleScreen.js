@@ -29,36 +29,65 @@ const ScheduleScreen = ({navigation}) => {
     todayTextColor: '#FF9405', // Customize the color for today's date (if needed)
     // Add other styling properties as needed
     arrowColor: '#FF9405',
-    selectedDayBackgroundColor: '#FF9405'
+    selectedDayBackgroundColor: '#FF9405',
   };
 
   const onDayPress = (day) => {
     // Handle the selected date here
     setDay(day.dateString);
   };
-}
+
+  
+
+
+
+  return (
+    <ScrollView style={styles.container}>
+      <Calendar
+        style={styles.calendar}
+        onDayPress={onDayPress}
+        markedDates={markedDates}
+        theme={customTheme}
+      />
+      <EventComponent event={item} />
+      {/* <EventComponent event={item} /> */}
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: 200, // Adjust the width as needed
-    height: 200, // Adjust the height as needed
-    resizeMode: 'contain', // You can adjust the resizeMode as needed
-  },
-  loginButton: {
-    backgroundColor: '#007bff', // Replace with your preferred button color
+    flexDirection: 'column',
+    gap: 5,
     padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
   },
-  buttonText: {
-    color: 'black', // Button text color
-    fontSize: 18,
+  calendar: {
+    width: '95%',
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
+    marginBottom: 20,
   },
+  scheduleview: {
+    margin: 10,
+    width: '90%',
+    height: 100,
+    flexDirection: 'column',
+  },
+  scheduleTitle: {
+    textAlign: 'left',
+    fontSize: 16,
+  },
+  scheduleContent: {
+    marginLeft: 10,
+    padding: 10,
+    justifyContent: 'center',
+    fontSize: 14,
+  },
+  day: {
+    color: '#FF9405',
+  }
 });
 
 export default ScheduleScreen;

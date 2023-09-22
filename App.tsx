@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
 // App.js
-import React, {useCallback, useState, useEffect} from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './app/navigation/AppNavigator';
 import * as SplashScreen from 'expo-splash-screen';
 import {Auth0Provider} from 'react-native-auth0';
+
 
 
 SplashScreen.preventAutoHideAsync();

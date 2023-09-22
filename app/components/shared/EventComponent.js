@@ -1,26 +1,35 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import { TouchableOpacity , Text,Image, StyleSheet } from 'react-native';
+import { TouchableOpacity , Text, View, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 
 
 
 const EventComponent = ({ event }) => {
-
-    const navigation = useNavigation();
-
-    const handleEventPress = () => {
-        // Navigate to the group details screen when clicked
-        navigation.navigate('Event Details');
-      };
+  // Variable for the share icon
+  const shareIcon = 'https://img.icons8.com/windows/32/share-rounded.png';
+  // Variable for the like icon
+  const likeIcon = 'https://img.icons8.com/ios/50/facebook-like--v1.png';
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleEventPress}>
-      <Text style={styles.eventName}>{event.name}</Text>
-      <Text style={styles.eventDescription}>{event.description}</Text>
-      <Text style={styles.eventDateTime}>{event.date} - {event.time}</Text>
-      <Text style={styles.eventLocation}>{event.location}</Text>
-      <Text style={styles.attendingCount}> <Image source={require('../../assets/images/people.png')}/> {event.attending} attending</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      {/* Event name */}
+      <View style={styles.eventNameContainer}>
+        <Text style={styles.eventName}>{event.name}</Text>
+        <Image source={{uri:shareIcon}} style={styles.icon} />
+      </View>
+      {/* Event description */}
+      <View>
+        <Text style={styles.eventDescription}>{event.description}</Text>
+        <Text style={styles.eventDateTime}>{event.date} - {event.time}</Text>
+        <Text style={styles.eventLocation}>{event.location}</Text>
+      </View>
+      {/* Attendees */}
+      <View style={styles.eventAttendeeContainer}>
+        <Text style={styles.attendingCount}> <Image source={require('../../assets/images/people.png')}/> {event.attending} attending</Text>
+        <Image source={{uri: likeIcon}} style={styles.icon} />
+      </View>
+    </View>
   );
 };
 
@@ -28,48 +37,59 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     borderRadius: 10,
-    marginBottom: 10,
-    height: 130,
-    padding: 20,
-    elevation: 3
+    marginBottom: 20,
+    height: 'auto',
+    paddingTop: 15,
+    paddingBottom: 20,
+    paddingHorizontal: 25,
+    // Add the line below if we want to add a shadow to the event cards
+    // shadowOffset: {width: 0, height: 0},
+    // shadowColor: 'black',
+    // shadowOpacity: 1,
+    // shadowRadius: 5,
+  },
+  eventNameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 7,
   },
   eventName: {
+    textTransform: 'capitalize',
     fontFamily: 'Poppins',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: 0.15
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  icon: {
+    width: 20,
+    height: 20,
   },
   eventDescription: {
     fontFamily: 'Roboto',
-    fontWeight: '500',
-    fontSize: 12,
-    lineHeight: 15,
-    letterSpacing: 0.4
+    fontSize: 16,
+    marginBottom: 5,
   },
   eventDateTime: {
     fontFamily: 'Roboto',
-    fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 18,
-    letterSpacing: 0.25,
-    color: '#FF9405'
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FF9405',
   },
   eventLocation: {
     fontFamily: 'Roboto',
-    fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
     color: '#75818F',
-    letterSpacing: 0.25,
-    marginBottom: 10
+  },
+  eventAttendeeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
   },
   attendingCount: {
     fontFamily: 'Roboto',
     fontWeight: '400',
-    fontSize: 10,
-    lineHeight: 15,
-    letterSpacing: 0.4
+    fontSize: 14,
   },
 });
 

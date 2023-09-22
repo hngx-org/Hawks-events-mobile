@@ -1,99 +1,77 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import group from '../../assets/images/group.png';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 
 
-const GroupComponent = ({ name, upcomingEvents }) => {
+const GroupComponent = (props) => {
 
-    const navigation = useNavigation();
+  const { name, members, upcomingEvents } = props.group
 
-    const handleGroupPress = () => {
-        // Navigate to the group details screen when clicked
-        navigation.navigate('Group Details');
-      };
+  const navigation = useNavigation();
+
+  const handleGroupPress = () => {
+    // Navigate to the group details screen when clicked
+    navigation.navigate('Group Details');
+  };
 
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleGroupPress}>
-      {/* Background Image */}
-      <Image source={group} style={styles.backgroundImage} />
+    <View style={{padding: 10}}>
+      <TouchableOpacity onPress={handleGroupPress} style={styles.mainContainer}>
+        <View style={styles.container}>
+          <View style={styles.circle} />
+          <View style={styles.titleContainer}>
+            <Text style={styles.groupName}>{name}</Text>
+            <Text style={styles.groupMembers}>{`${members} Members`}</Text>
+          </View>
+          <Text style={styles.groupEvents}>{`${upcomingEvents} upcoming event`}</Text>
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.overlay}>
-      </View>
-
-      {/* Group Name and View Button */}
-      <View style={styles.contentContainer}>
-        <Text style={styles.groupName}>{name}</Text>
-      </View>
-
-      {/* Number of Upcoming Events */}
-      <Text style={styles.upcomingEvents}>{`${upcomingEvents} Upcoming Events`}</Text>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
-    overflow: 'hidden',
-    elevation: 3,
-    width: "50%",
-    height: 200,
-     // Semi-transparent background
-  },
-  backgroundImage: {
+  mainContainer: {
     width: '100%',
-    height: '100%',
-  },
-  overlay : {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent overlay
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#ffff',
+    padding: 10
   },
-  contentContainer: {
-    padding: 10,
-    position: 'absolute',
-    bottom: "50%",
-    left: 0,
-    right: 0,
+  container: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%'
+  },
+  circle: {
+    width: 30,
+    height: 30,
+    borderWidth: 1,
+    borderRadius: 15
+  },
+  titleContainer: {
+    justifyContent: 'space-evenly',
+    flex: 1,
+    marginHorizontal: 10
   },
   groupName: {
-    fontSize: 18,      // Font size 14px
-    fontFamily: 'Roboto', // Use the Roboto font
-    fontWeight: '500',  // Weight 500 (Medium)
-    letterSpacing: 0.5, // Letter spacing 0.5%
-    lineHeight: 16.41,  // Line height 16.41px
-    textAlign: 'center', // Center align the text
-    color: 'white',    // Black color
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333333'
   },
-  viewButton: {
-    backgroundColor: '#400d40',
-    padding: 8,
-    borderRadius: 5,
-    marginTop: 5,
+  groupMembers: {
+    fontSize: 12
   },
-  buttonText: {
-    fontSize: 14,
-    color: '#fff',
-    textAlign: 'center',
-  },
-  upcomingEvents: {
-    padding: 10,
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    fontSize: 14,
-    color: 'white',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    backgroundColor: '#5ECC62',
-  },
+  groupEvents: {
+    fontSize: 12
+  }
 });
 
 export default GroupComponent;
