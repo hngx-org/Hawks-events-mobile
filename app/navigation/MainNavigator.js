@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen'; // Import your HomeScreen component
@@ -8,9 +8,12 @@ import SettingsScreen from '../screens/SettingsScreen'; // Import your SettingsS
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {Image} from 'react-native';
 
+
+
 const Tab = createBottomTabNavigator();
 
 function MainScreen() {
+
   return (
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} options={{  headerShown: false,

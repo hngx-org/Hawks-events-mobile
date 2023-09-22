@@ -11,7 +11,7 @@
     "splash": {
       "image": "./app/assets/images/splash-screen.png",
       "resizeMode": "cover",
-      "backgroundColor": "#123155"
+      "backgroundColor": "#FF9405"
     },
     "plugins": [
       [
@@ -29,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "4f650bbc-bf3c-48da-88a1-76dd4e5d23f2"
+        // "projectId": "4c42f9b1-37ca-4f0d-9aef-31c64593878c"
       }
     }
   }
