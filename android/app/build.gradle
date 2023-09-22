@@ -78,7 +78,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.wetindeysupmobile"
+    namespace 'com.hng.wetindeysup'
     defaultConfig {
         applicationId "com.wetindeysupmobile"
         minSdkVersion rootProject.ext.minSdkVersion

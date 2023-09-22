@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen'; // Import your HomeScreen component
@@ -6,9 +6,12 @@ import GroupListScreen from '../screens/MyGroupsScreen'; // Import your MyEvents
 import ScheduleScreen from '../screens/ScheduleScreen'; // Import your ScheduleScreen component
 import SettingsScreen from '../screens/SettingsScreen'; // Import your SettingsScreen component
 
+
+
 const Tab = createBottomTabNavigator();
 
 function MainScreen() {
+
   return (
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />

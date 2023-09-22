@@ -2,18 +2,72 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 import event from '../data/event';
+import { events } from '../data/event';
+import {useAuth0} from 'react-native-auth0';
+
 
 const HomeScreen = ({ navigation }) => {
 
-    const handleCreateEventPress = () => {
-        // Navigate to the Create Event Screen when the button is pressed
-        navigation.navigate('Create Event');
-      };
+ 
+
+  const {user} = useAuth0();
+
+  const [mappedEvent, setMappedEvent] = useState([event, event, event]);
 
   return (
-     <View style={styles.container}>
-          <Text style={styles.buttonText}>Home</Text>
-          <EventComponent event={event}/>
+    //  <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={{flexDirection: 'row'}}>
+        <TextInput placeholder={`Hi ${user.nickname}`} style={styles.searchInput} />
+        <Image source={search} />
+      </View>
+      {switchButton ? (
+        <View
+          style={{
+            marginTop: 30,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: 'white',
+            paddingVertical: 10,
+            borderRadius: 40,
+            borderColor: '#E3E5E6',
+            borderWidth: 1,
+            paddingHorizontal: 10,
+          }}>
+          <TouchableOpacity
+            onPress={() => setSwitchButton(false)}
+            style={styles.everyoneNonActiveTab}>
+            <Text style={styles.tabNonActiveText}>Everyone</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.everyoneTab}>
+            <Text style={styles.tabText}>Friends</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View
+          style={{
+            marginTop: 30,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: 'white',
+            paddingVertical: 10,
+            borderRadius: 40,
+            borderColor: '#E3E5E6',
+            borderWidth: 1,
+            paddingHorizontal: 10,
+          }}>
+          <TouchableOpacity style={styles.everyoneTab}>
+            <Text style={styles.tabText}>Everyone</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setSwitchButton(true)}
+            style={styles.everyoneNonActiveTab}>
+            <Text style={styles.tabNonActiveText}>Friends</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
           <TouchableOpacity
             style={styles.floatingButton}

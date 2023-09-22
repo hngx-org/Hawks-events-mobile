@@ -11,7 +11,26 @@
     "splash": {
       "image": "./app/assets/images/splash-screen.png",
       "resizeMode": "cover",
-      "backgroundColor": "#123155"
+      "backgroundColor": "#FF9405"
+    },
+    "plugins": [
+      [
+        "react-native-auth0",
+        {
+          "domain": "dev-z3pimpy9.us.auth0.com"
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.hng.wetindeysup"
+    },
+    "ios": {
+      "bundleIdentifier": "com.hng.wetindeysup"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4c42f9b1-37ca-4f0d-9aef-31c64593878c"
+      }
     }
   }
   

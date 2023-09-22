@@ -1,20 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import loginImage from '../assets/svgs/login-illustration.svg'; // Replace with your login image
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+//import loginImage from '../assets/svgs/login-illustration.svg'; // Replace with your login image
+import {createStackNavigator} from '@react-navigation/stack';
+import userIcon from '../assets/images/userIcon.png';
+import {useAuth0} from 'react-native-auth0';
 
-const SettingsScreen = ({ navigation }) => {
-  const handleLogin = () => {
+
+
+const SettingsScreen = ({navigation}) => {
+    const {clearSession, user} = useAuth0();
+  
+  const handleLogout = async () => {
     // Implement your login logic here, e.g., Google Authentication
     // Once logged in, navigate to the Home screen or the main part of your app
-    navigation.navigate('Home'); // Replace 'Home' with the actual screen name
+
+    try {
+        await clearSession();
+        navigation.navigate('Login'); // Replace 'Home' with the actual screen name
+    } catch (e) {
+        console.log(e);
+    }
+
+    
   };
   
 
  
 
+  
+
   return (
     <View style={styles.container}>
-          <Text style={styles.buttonText}>Settings</Text>
+      <View style={styles.displayBox}>
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: user.picture}} />
+        </View>
+        <View style={styles.displayInner}>
+          <Text style={styles.nameText}>{user.name}</Text>
+          <Text style={styles.emailText}>{user.email}</Text>
+        </View>
+      </View>
+      <TouchableOpacity onPress={handleLogout}>
+        <View style={styles.logout}>
+          <Image source={require('../assets/images/logout.png')} />
+          <Text style={styles.logoutText}>Logout</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
