@@ -8,12 +8,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 import {AntDesign} from '@expo/vector-icons';
 import search from '../assets/images/search.png';
-import event from '../data/event';
-import { events } from '../data/event';
+import {events} from '../data/event';
+import { groups } from '../data/groups';
 
 const HomeScreen = ({navigation}) => {
   // user can switch between everyone and friends
@@ -22,8 +23,14 @@ const HomeScreen = ({navigation}) => {
     // Navigate to the Create Event Screen when the button is pressed
     navigation.navigate('Create Event');
   };
-
-  const [mappedEvent, setMappedEvent] = useState([event, event, event]);
+  const getGroupName = (eventId) => {
+    const groupDetails = groups.find((group) => group.events.includes(eventId));
+    return groupDetails.name;
+  }
+  const getGroupmembers = (eventId) => {
+    const groupDetails = groups.find((group) => group.events.includes(eventId));
+    return groupDetails.members;
+  }
 
   return (
     //  <View style={styles.container}>
@@ -32,6 +39,7 @@ const HomeScreen = ({navigation}) => {
         <TextInput placeholder={`Hi ${user.nickname}`} style={styles.searchInput} />
         <Image source={search} />
       </View>
+
       {switchButton ? (
         <View
           style={{
@@ -91,24 +99,38 @@ const HomeScreen = ({navigation}) => {
       {switchButton ? (
         <>
           {/* when a user is viewing the Everyone event */}
-          {events?.map((each, index) => (
-            <TouchableOpacity key={index} onPress={() => {
-              navigation.navigate('Event Details', {event: each});
-            }}>
-              <EventComponent event={each} />
-            </TouchableOpacity>
-          ))}
+          <FlatList
+            data={events}
+            keyExtractor={item => item.id}
+            initialNumToRender={5}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Event Details', {event: item, name: getGroupName(item.id), members: getGroupmembers(item.id)});
+                }}>
+                <EventComponent event={item} />
+              </TouchableOpacity>
+            )}
+          />
         </>
       ) : (
         <>
           {/* when a user views friends event */}
-          {events?.map((each, index) => (
-            <TouchableOpacity key={index} onPress={() => {
-              navigation.navigate('Event Details', {event: each});
-            }}>
-              <EventComponent event={each} />
-            </TouchableOpacity>
-          ))}
+          <FlatList
+            data={events}
+            keyExtractor={item => item.id}
+            initialNumToRender={5}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Event Details', {event: item, name: getGroupName(item.id), members: getGroupmembers(item.id)});
+                }}>
+                <EventComponent event={item} />
+              </TouchableOpacity>
+            )}
+          />
         </>
       )}
       <TouchableOpacity
