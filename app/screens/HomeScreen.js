@@ -15,6 +15,7 @@ import {AntDesign} from '@expo/vector-icons';
 import search from '../assets/images/search.png';
 import {events} from '../data/event';
 import { groups } from '../data/groups';
+import {useAuth0} from 'react-native-auth0';
 
 const HomeScreen = ({navigation}) => {
   // user can switch between everyone and friends
@@ -23,6 +24,9 @@ const HomeScreen = ({navigation}) => {
     // Navigate to the Create Event Screen when the button is pressed
     navigation.navigate('Create Event');
   };
+
+  const {user} = useAuth0();
+  
   const getGroupName = (eventId) => {
     const groupDetails = groups.find((group) => group.events.includes(eventId));
     return groupDetails.name;
