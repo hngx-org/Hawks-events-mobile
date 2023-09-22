@@ -29,7 +29,7 @@ const HomeScreen = ({navigation}) => {
     //  <View style={styles.container}>
     <View style={styles.container}>
       <View style={{flexDirection: 'row'}}>
-        <TextInput placeholder="Hello Mayana" style={styles.searchInput} />
+        <TextInput placeholder={`Hi ${user.nickname}`} style={styles.searchInput} />
         <Image source={search} />
       </View>
       {switchButton ? (
@@ -79,6 +79,8 @@ const HomeScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       )}
+
+          
 
       <Text style={{color: '#85909C', marginTop: 30, marginBottom: 20}}>
         Happening Now
