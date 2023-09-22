@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
   },
   groupImage: {
     backgroundColor: '#fff',
-    width: 45,
-    height: 45,
+    width: 30,
+    height: 30,
     borderRadius: 50,
     overflow: 'hidden',
     borderWidth: 1,
@@ -152,11 +152,11 @@ const styles = StyleSheet.create({
     objectFit: 'cover', // You can adjust the resizeMode as needed
   },
   groupName: {
-    fontSize: 28,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   groupMembers: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
     fontWeight: '600',
   },
@@ -168,22 +168,25 @@ const styles = StyleSheet.create({
   },
   attendEvent: {
     width: '100%',
-    borderWidth: 2,
+    height: 44,
+    borderWidth: 1,
     borderColor: '#FF9405',
-    paddingVertical: 15,
-    borderRadius: 20,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   attendEventText: {
     color: '#FF9405',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '500',
   },
   commentsContainer: {
     flex: 1,
-    paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+  commentHeader: {
+    marginTop: 5,
+    height: 35,
   },
   commentHeaderText: {
     textAlign: 'center',
@@ -193,7 +196,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderColor: '#5ECC62',
     color: '#5ECC62',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
     width: 100,
   },
@@ -201,7 +204,8 @@ const styles = StyleSheet.create({
     flex: 1,
     columnGap: 10,
     width: '100%',
-    paddingBottom: 70,
+    marginTop: 15,
+    paddingBottom: 65,
   },
   addCommentContainer: {
     position: 'absolute',
@@ -227,10 +231,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
-    paddingVertical: 10,
-    paddingLeft: 20,
+    paddingVertical: 7,
+    paddingLeft: 15,
   },
 });
 
