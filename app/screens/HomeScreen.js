@@ -8,10 +8,11 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 import {AntDesign} from '@expo/vector-icons';
-import search from '../assets/images/search.png';
+import search from '../assets/images/SearchIcons.png';
 import event from '../data/event';
 import { events } from '../data/event';
 
@@ -32,6 +33,9 @@ const HomeScreen = ({navigation}) => {
         <TextInput placeholder="Hello Mayana" style={styles.searchInput} />
         <Image source={search} />
       </View>
+      
+    <ScrollView style={{ marginTop: 20}}
+      showsVerticalScrollIndicator={false}>
       {switchButton ? (
         <View
           style={{
@@ -80,9 +84,9 @@ const HomeScreen = ({navigation}) => {
         </View>
       )}
 
-      <Text style={{color: '#85909C', marginTop: 30, marginBottom: 20}}>
+      {/* <Text style={{color: '#85909C', marginTop: 30, marginBottom: 20}}>
         Happening Now
-      </Text>
+      </Text> */}
       {/* <TouchableOpacity style={styles.plusButton}>
       <Text style={{fontSize: 48, color:'white'}}>+</Text>
     </TouchableOpacity> */}
@@ -109,6 +113,7 @@ const HomeScreen = ({navigation}) => {
           ))}
         </>
       )}
+      </ScrollView>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={handleCreateEventPress}>
