@@ -101,6 +101,7 @@ const HomeScreen = ({navigation}) => {
             data={events}
             keyExtractor={item => item.id}
             initialNumToRender={5}
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {
@@ -118,6 +119,7 @@ const HomeScreen = ({navigation}) => {
             data={events}
             keyExtractor={item => item.id}
             initialNumToRender={5}
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {
