@@ -16,7 +16,7 @@ function CommentComponent({comment}) {
           <Text style={styles.commentName}>{name}</Text>
           <Text style={styles.commentTime}>{timestamp}</Text>
         </View>
-        <Text>{commentText}</Text>
+        <Text style={styles.commentText}>{commentText}</Text>
       </View>
     </View>
   );
@@ -26,13 +26,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     columnGap: 10,
-    paddingVertical: 15,
+    height: 38,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
   imageContainer: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderRadius: 50,
     overflow: 'hidden',
     borderWidth: 1,
@@ -51,12 +52,15 @@ const styles = StyleSheet.create({
   },
   commentName: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 13,
   },
   commentTime: {
     color: '#666',
-    fontSize: 12,
+    fontSize: 13,
   },
+  commentText: {
+    fontSize: 12,
+  }
 });
 
 export default CommentComponent;

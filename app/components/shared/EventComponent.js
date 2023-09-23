@@ -35,18 +35,13 @@ const EventComponent = ({ event }) => {
 
 const styles = StyleSheet.create({
   container: {
+    height: 150,
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 20,
-    height: 'auto',
     paddingTop: 15,
     paddingBottom: 20,
     paddingHorizontal: 25,
-    // Add the line below if we want to add a shadow to the event cards
-    // shadowOffset: {width: 0, height: 0},
-    // shadowColor: 'black',
-    // shadowOpacity: 1,
-    // shadowRadius: 5,
   },
   eventNameContainer: {
     flexDirection: 'row',
@@ -56,40 +51,35 @@ const styles = StyleSheet.create({
   },
   eventName: {
     textTransform: 'capitalize',
-    fontFamily: 'Poppins',
     fontWeight: 'bold',
-    fontSize: 26,
+    fontSize: 16,
   },
   icon: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
   },
   eventDescription: {
-    fontFamily: 'Roboto',
-    fontSize: 16,
+    fontSize: 13,
     marginBottom: 5,
   },
   eventDateTime: {
-    fontFamily: 'Roboto',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     color: '#FF9405',
   },
   eventLocation: {
-    fontFamily: 'Roboto',
-    fontSize: 16,
+    fontSize: 12,
     color: '#75818F',
   },
   eventAttendeeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 5,
   },
   attendingCount: {
-    fontFamily: 'Roboto',
     fontWeight: '400',
-    fontSize: 14,
+    fontSize: 12,
   },
 });
 

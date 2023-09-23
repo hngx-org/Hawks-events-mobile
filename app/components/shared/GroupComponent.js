@@ -1,19 +1,18 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import group from '../../assets/images/group.png';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import {events} from '../../data/event';
 
 const GroupComponent = (props) => {
-
-  const { name, members, upcomingEvents } = props.group
+  const groupEvents = events.filter((event) => props.group.events.includes(event.id));
+  const { name, members } = props.group;
 
   const navigation = useNavigation();
 
   const handleGroupPress = () => {
     // Navigate to the group details screen when clicked
-    navigation.navigate('Group Details');
+    navigation.navigate('Group Details', {name, members, groupEvents});
   };
 
 
@@ -26,7 +25,7 @@ const GroupComponent = (props) => {
             <Text style={styles.groupName}>{name}</Text>
             <Text style={styles.groupMembers}>{`${members} Members`}</Text>
           </View>
-          <Text style={styles.groupEvents}>{`${upcomingEvents} upcoming event`}</Text>
+          <Text style={styles.groupEvents}>{`${groupEvents.length} upcoming event`}</Text>
         </View>
       </TouchableOpacity>
 
