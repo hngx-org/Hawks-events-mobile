@@ -8,30 +8,47 @@ import { phoneHeight } from '../utils/dimensions';
 import AppSelect from '../components/shared/AppSelect';
 import AppButton from '../components/shared/AppButton';
 import AppModal from '../components/Modal';
+import { supabase } from '../utils/api';
+import {useAuth0} from 'react-native-auth0';
+import UUIDGenerator from 'react-native-uuid-generator';
 
 
 const CreateEventScreen = ({ navigation }) => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState("");
+  const [date, setDate] = useState('21 9 2023');
+  const [description, setDescription] = useState("");
+  const [eventName, setEventName] = useState("");
+  const [location, setLocation] = useState("");
+
+  const {user} = useAuth0();
+
   const [options, setOptions] = useState([
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
-    { label: "Prefer Not to Say", value: "neutral" },
+    { label: "Group 1", value: 1 },
   ]);
+
+  const createEvent = async () => {
+    const uuid = await UUIDGenerator.getRandomUUID();
+    const event = { id: uuid, group_id: value, name:eventName, description:description, date:date, time: "12:05", location:location, attending:0, owner: user.email };
+    console.log(event);
+    const { data, error } = await supabase
+    .from('event')
+    .insert(event)
+    console.log(error);
+    console.log(data);
+}
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <ScrollView>
     <View style={styles.container}>
     <View style={styles.container2}>
-          <AppInput label='Event Name' />
-          <AppInput label='Description' multiline={true} numberOfLines={3}/>
-          <DateSelect label='Start Date'/>
-          <AppInput label='Location' />
+          <AppInput label='Event Name' setText={setEventName}/>
+          <AppInput label='Description' multiline={true} setText={setDescription} numberOfLines={3}/>
+          <DateSelect label='Start Date' setDate={setDate}/>
+          <AppInput label='Location' setText={setLocation}/>
           <AppSelect label='Select Group' options={options} value={value} setOptions={setOptions} setValue={setValue}/>
-          <AppButton onPress={() => {
-            setModalVisible(true)
-          }} title='Create' />
-<AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='Go Back' msg='Event created successfully' />
+          <AppButton onPress={createEvent} title='Create' />
+          <AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='Go Back' msg='Event created successfully' />
     </View>
    {/*  <View style={{
     paddingHorizontal: 20,

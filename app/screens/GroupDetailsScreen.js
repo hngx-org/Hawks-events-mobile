@@ -1,89 +1,48 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet, StatusBar, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  StatusBar,
+  FlatList,
+} from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
-import groupImage from '../assets/images/group.png';
 
-const GroupDetailsScreen = ({navigation}) => {
+// Add the group prop to the component when it's ready and remove the group constant created
+const GroupDetailsScreen = ({navigation, route}) => {
+  const {name, members, groupEvents: events} = route.params;
   // Variable to check if the user has joined the group
   const [joined, setJoined] = useState(false);
   // Variable for navigation arrow icon
   const arrowIcon = 'https://img.icons8.com/ios-glyphs/30/less-than.png';
-  // Variable for the group details
-  const group = {
-    name: 'GGB Dance',
-    image: groupImage,
-    members: 100,
-    events: [
-      {
-        name: 'Dance ferry night',
-        description: 'Come and have fun and ease yourself from stress without worry or pain',
-        date: '2021-09-01',
-        time: '12:00',
-        location: 'Shefton top roof',
-        attending: 10,
-      },
-      {
-        name: 'Dinner date',
-        description: 'Create a memorable dinner date with that special someone',
-        date: '2021-09-01',
-        time: '18:00',
-        location: 'Eiffle tower',
-        attending: 10,
-      },
-      {
-        name: 'Friday night party',
-        description: 'Come and have fun and ease yourself from stress without worry or pain',
-        date: '2021-09-01',
-        time: '20:00',
-        location: 'Shefton top roof',
-        attending: 30,
-      },
-      {
-        name: 'Dance ferry night',
-        description: 'Come and have fun and ease yourself from stress without worry or pain',
-        date: '2021-09-01',
-        time: '12:00',
-        location: 'Shefton top roof',
-        attending: 10,
-      },
-      {
-        name: 'Dinner date',
-        description: 'Create a memorable dinner date with that special someone',
-        date: '2021-09-01',
-        time: '18:00',
-        location: 'Eiffle tower',
-        attending: 10,
-      },
-      {
-        name: 'Friday night party',
-        description: 'Come and have fun and ease yourself from stress without worry or pain',
-        date: '2021-09-01',
-        time: '20:00',
-        location: 'Shefton top roof',
-        attending: 30,
-      },
-    ],
-  };
 
   const joinGroup = () => {
     setJoined(true);
+  };
+  // Handle event press
+  const handleEventPress = (event) => {
+    // Navigate to the group details screen when clicked
+    navigation.navigate('Event Details', {event, name, members});
   };
 
   return (
     <View style={styles.container}>
       <StatusBar />
       <View style={styles.nav}>
-        <TouchableOpacity style={{padding:7}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={{padding: 7}}
+          onPress={() => navigation.goBack()}>
           <Image source={{uri: arrowIcon}} style={styles.icon} />
         </TouchableOpacity>
 
         <View style={styles.groupInfo}>
-          <View style={styles.groupImage}>
-          </View>
+          <View style={styles.groupImage}></View>
           <View>
-            <Text style={styles.groupName}>{group.name}</Text>
-            <Text style={styles.groupMembers}>{group.members} Members</Text>
+            <Text style={styles.groupName}>{name}</Text>
+            <Text style={styles.groupMembers}>{members} Members</Text>
           </View>
         </View>
       </View>
@@ -91,9 +50,18 @@ const GroupDetailsScreen = ({navigation}) => {
       <View style={styles.events}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={group.events}
-          renderItem={({item}) => <EventComponent event={item} />}
-          keyExtractor={item => group.events.indexOf(item)}
+          data={events}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => handleEventPress(item, name, members)}>
+              <EventComponent
+                event={item}
+                name={name}
+                members={members}
+              />
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => events.indexOf(item)}
         />
       </View>
 
@@ -101,8 +69,7 @@ const GroupDetailsScreen = ({navigation}) => {
         <View style={styles.joinGroupContainer}>
           <TouchableOpacity
             style={styles.joinGroup}
-            onPress={() => joinGroup()}
-          >
+            onPress={() => joinGroup()}>
             <Text style={styles.joinGroupText}>Join Group</Text>
           </TouchableOpacity>
         </View>
@@ -122,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 12,
   },
   icon: {
     width: 20, // Adjust the width as needed
@@ -139,8 +106,8 @@ const styles = StyleSheet.create({
   },
   groupImage: {
     backgroundColor: '#fff',
-    width: 45,
-    height: 45,
+    width: 30,
+    height: 30,
     borderRadius: 50,
     overflow: 'hidden',
     borderWidth: 1,
@@ -152,11 +119,11 @@ const styles = StyleSheet.create({
     objectFit: 'cover', // You can adjust the resizeMode as needed
   },
   groupName: {
-    fontSize: 28,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   groupMembers: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
     fontWeight: '600',
   },
@@ -176,15 +143,15 @@ const styles = StyleSheet.create({
   },
   joinGroup: {
     width: '100%',
+    height: 44,
     backgroundColor: '#FF9405',
-    paddingVertical: 17,
-    borderRadius: 20,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   joinGroupText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });

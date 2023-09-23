@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import loginImage from '../assets/images/login.png'; // Replace with your login image
+import loginImage from '../assets/images/login.png';
+ // Replace with your login image
+ import {useAuth0} from 'react-native-auth0';
+
 
 const LoginScreen = ({ navigation }) => {
-  const handleLogin = () => {
+  const {authorize} = useAuth0();
+
+  const handleLogin = async () => {
+    try {
+      await authorize();
+    } catch (e) {
+        console.log(e);
+    }
     // Implement your login logic here, e.g., Google Authentication
     // Once logged in, navigate to the Home screen or the main part of your app
     navigation.navigate('Main'); // Replace 'Home' with the actual screen name
@@ -19,15 +29,15 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
         <View style={styles.signupButton}>
           <Image source={require('../assets/images/google-icon.png')} style={styles.googleIcon} />
-          <Text style={styles.buttonText}>Continue with Google</Text>
+          <Text style={styles.buttonText}>Signup with Google</Text>
         </View>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
+      <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
         <View style={styles.loginButton}>
           <Image source={require('../assets/images/google-icon.png')} style={styles.googleIcon} />
           <Text style={styles.buttonText}>Login with Google</Text>
         </View>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
@@ -45,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     lineHeight: 42,
     letterSpacing: 0.25,
-    alignSelf: 'flex-start',
+    alignSelf: 'right',
     marginTop: 40,
   },
   descriptionText: {
@@ -55,7 +65,8 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     letterSpacing: 0.5,
     marginTop: 20,
-    alignSelf: 'flex-start',
+    alignSelf: 'right',
+
   },
   touchable: {
     width: '100%',
