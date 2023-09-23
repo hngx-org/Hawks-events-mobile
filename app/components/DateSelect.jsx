@@ -4,11 +4,9 @@ import {phoneFontScale, phoneHeight, phoneWidth} from '../utils/dimensions';
 import {TouchableWithoutFeedback} from 'react-native';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 
-const DateSelect = ({label = 'label'}) => {
-  const [date, setDate] = useState('21 9 2023');
+const DateSelect = ({label = 'label', setDate}) => {
   const [open, setOpen] = useState(false);
 
-  console.log(date);
   return (
     <View style={{width: '100%'}}>
       <Text style={styles.label}>{label}</Text>
