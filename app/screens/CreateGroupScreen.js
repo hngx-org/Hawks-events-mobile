@@ -6,21 +6,58 @@ import { Keyboard } from 'react-native';
 import { phoneHeight } from '../utils/dimensions';
 import AppButton from '../components/shared/AppButton';
 import AppModal from '../components/Modal';
+import {useAuth0} from 'react-native-auth0';
+import UUIDGenerator from 'react-native-uuid-generator';
+import { supabase } from '../utils/api'
 
 
 const CreateGroupScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [groupName, setGroupName] = useState(''); 
+
+  const {user} = useAuth0();
+  // Function to handle the group creation
+
+  const createGroup = async (groupname, owner) => {
+    const uuid = await UUIDGenerator.getRandomUUID();
+    const { data, error } = await supabase
+    .from('group')
+    .insert({ id: uuid, name: groupname, members:0, upcoming_events:0, owner: owner })
+    .select();
+
+    console.log(error);
+}
+
+
+  const handleCreateGroup = async () => {
+    setModalVisible(true);
+    // Validate the group name input (you can add more validation logic here)
+
+
+    if (groupName.trim() === '') {
+      // Show an error message or handle invalid input
+      alert('Please enter a valid group name');
+      setModalVisible(false);
+      return;
+    }
+
+    await createGroup(groupName, user.email);
+
+    // Group creation logic goes here
+    // Once the group is created, you can show the success modal
+    setModalVisible(false);
+  };
+
+
  
   return (
     <ScrollView>
     <View style={styles.container}>
     <View style={styles.container2}>
-          <AppInput label='Group Name' />
-          <AppButton onPress={() => {
-            setModalVisible(true)
-          }} title='Create' />
-<AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='View Reward' msg='Group created successfully' />
-
+          <AppInput label='Group Name' setText={setGroupName}/>
+          <AppButton title='Create'
+          onPress={handleCreateGroup} />
+          <AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='View Reward' msg='Group created successfully' />
     </View>
    {/*  <View style={{
     paddingHorizontal: 20,
