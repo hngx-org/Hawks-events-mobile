@@ -13,7 +13,6 @@ import { supabase } from '../utils/api'
 
 const CreateGroupScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [groupName, setGroupName] = useState(''); 
 
   const {user} = useAuth0();
   // Function to handle the group creation
