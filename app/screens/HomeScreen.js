@@ -32,6 +32,9 @@ const HomeScreen = ({navigation}) => {
     navigation.navigate('Create Event');
   };
 
+  const {user} = useAuth0();
+  
+
   useEffect(() => {
     const getEventDetails = async () => {
       let {data, error} = await supabase
