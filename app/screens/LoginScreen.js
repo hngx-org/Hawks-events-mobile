@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import loginImage from '../assets/images/login.png';
  // Replace with your login image
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 8,
-    marginTop: 20
+    marginTop: 20,
   },
   loginButton: {
     flexDirection: 'row',

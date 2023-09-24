@@ -10,6 +10,7 @@ import {
   FlatList,
   TextInput,
   Pressable,
+  ActivityIndicator,
 } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 import CommentComponent from '../components/CommentComponent';
@@ -22,6 +23,8 @@ const EventDetailsScreen = ({navigation, route}) => {
   const email = user ? user.email : 'email@gmail.com';
   // Set loading state
   const [loading, setLoading] = useState(true);
+  // Comment loading state
+  const [commentLoading, setCommentLoading] = useState(false);
   // console.log(route.params);
   const {event, name, members} = route.params;
   // Variable to check if the user has attend the group
@@ -41,6 +44,7 @@ const EventDetailsScreen = ({navigation, route}) => {
   const sendCommenntIcon =
     'https://img.icons8.com/material-rounded/24/FF9405/sent.png';
   const calenderIcon = 'https://img.icons8.com/ios-filled/50/calendar--v1.png';
+  const loaderIcon = 'https://img.icons8.com/ios/50/000000/spinner-frame-5.png';
 
   // Attend an event
   const attendEvent = async () => {
@@ -89,20 +93,26 @@ const EventDetailsScreen = ({navigation, route}) => {
     // console.log(uuid);
     // let id, body, created_at, event_id, user_name;
     if (comment && comment !== '') {
-      const {data, error} = await supabase
-        .from('comments')
-        .insert([
-          {
-            id: commentId,
-            body: comment,
-            created_at: createdAt,
-            event_id: event.id,
-            user_name: user ? user.name : 'friend',
-          },
-        ])
-        .select();
-
+      setCommentLoading(true);
+      try {
+        const {data, error} = await supabase
+          .from('comments')
+          .insert([
+            {
+              id: commentId,
+              body: comment,
+              created_at: createdAt,
+              event_id: event.id,
+              user_name: user ? user.name : 'friend',
+            },
+          ])
+          .select();
+      } catch (error) {
+        console.log(error);
+      }
+      setComment(null);
       await getComments(event.id);
+      setCommentLoading(false);
     } else {
       alert('Comment is empty');
     }
@@ -182,7 +192,7 @@ const EventDetailsScreen = ({navigation, route}) => {
 
       {loading && (
         <View style={styles.loader}>
-          <Text>Loading, please wait...</Text>
+          <ActivityIndicator size="large" color="#FF9405" />
         </View>
       )}
 
@@ -218,9 +228,14 @@ const EventDetailsScreen = ({navigation, route}) => {
             onChangeText={text => setComment(text)}
             style={styles.textInput}
             placeholder="Type a comment"
+            value={comment}
           />
           <Pressable style={{paddingHorizontal: 10}} onPress={addComment}>
-            <Image source={{uri: sendCommenntIcon}} style={[styles.icon]} />
+            {commentLoading ? (
+              <ActivityIndicator size="small" color="#FF9405" />
+            ) : (
+              <Image source={{uri: sendCommenntIcon}} style={[styles.icon]} />
+            )}
           </Pressable>
         </View>
       </View>
