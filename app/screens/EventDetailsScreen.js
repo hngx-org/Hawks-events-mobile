@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,14 +13,27 @@ import {
 } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 import CommentComponent from '../components/CommentComponent';
+import {supabase} from '../utils/api';
+import uuid from 'react-native-uuid';
+import {useAuth0} from 'react-native-auth0';
 
 const EventDetailsScreen = ({navigation, route}) => {
+  const {user} = useAuth0;
+  const email = user ? user.email : 'email@gmail.com';
+  // Set loading state
+  const [loading, setLoading] = useState(true);
   // console.log(route.params);
   const {event, name, members} = route.params;
   // Variable to check if the user has attend the group
   const [attend, setAttend] = useState(false);
   // Variable to hold a user comment
   const [comment, setComment] = useState(null);
+  // Variable to store saved comments
+  const [eventComments, setEventComments] = useState([]);
+
+  // Test variables;
+  const [testEvent, setTestEvent] = useState([]);
+
   // Variable for icons to be used
   const arrowIcon = 'https://img.icons8.com/ios-glyphs/30/less-than.png';
   const uploadImageIcon =
@@ -29,9 +42,114 @@ const EventDetailsScreen = ({navigation, route}) => {
     'https://img.icons8.com/material-rounded/24/FF9405/sent.png';
   const calenderIcon = 'https://img.icons8.com/ios-filled/50/calendar--v1.png';
 
-  const attendEvent = () => {
+  // Attend an event
+  const attendEvent = async () => {
+    const attending = testEvent.attending ? testEvent.attending : 0;
+
+    await supabase
+      .from('events')
+      .update({attending: attending + 1})
+      .eq('id', testEvent.id)
+      .select();
+
+    const userEventRelation = await getEventUserRelation();
+    if (userEventRelation) {
+      console.log(userEventRelation[0].event_ids);
+      const {data: event_user_relat} = await supabase
+        .from('event_user_relat')
+        .insert([
+          {
+            user_email: email,
+            event_ids: [...userEventRelation[0].event_ids, event.id],
+          },
+        ])
+        .eq('user_email', email)
+        .select();
+      console.log(event_user_relat);
+    }
+
     setAttend(true);
   };
+
+  // Get all user events
+  const getEventUserRelation = async () => {
+    let {data, error} = await supabase
+      .from('event_user_relat')
+      .select('*')
+      .eq('user_email', email);
+    console.log(data);
+    return data;
+  };
+
+  // Add a comment
+  const addComment = async () => {
+    const commentId = uuid.v4();
+    const createdAt = Date.now();
+    console.log(createdAt);
+    // console.log(uuid);
+    // let id, body, created_at, event_id, user_name;
+    if (comment && comment !== '') {
+      const {data, error} = await supabase
+        .from('comments')
+        .insert([
+          {
+            id: commentId,
+            body: comment,
+            created_at: createdAt,
+            event_id: event.id,
+            user_name: user ? user.name : 'friend',
+          },
+        ])
+        .select();
+
+      console.log(data);
+    } else {
+      alert('Comment is empty');
+    }
+  };
+
+  useEffect(() => {
+    console.log('Fecthing data');
+    // Check if user has joined the the event
+    const checkAttend = async () => {
+      const userEventRelation = await getEventUserRelation();
+      if (userEventRelation) {
+        console.log(userEventRelation[0].event_ids);
+        if (userEventRelation[0].event_ids.includes(event.id)) {
+          console.log('Already attending');
+          setAttend(true);
+        }
+      }
+    };
+
+    // Get event details
+    const getEventDetails = async () => {
+      let {data: events, error} = await supabase
+        .from('events')
+        .select('*')
+        .eq('id', event.id);
+
+      await getComments(event.id);
+      setTestEvent(events[0]);
+      setLoading(false);
+    };
+
+    // Get comments
+    const getComments = async eventId => {
+      console.log('Getting comments');
+      let {data: comments, error} = await supabase
+        .from('comments')
+        .select('*')
+        .eq('event_id', eventId);
+
+      // console.log(comments);
+      // return comments;
+      setEventComments(comments);
+    };
+
+    getEventDetails();
+    checkAttend();
+  }, );
 
   return (
     <View style={styles.container}>
@@ -56,15 +174,20 @@ const EventDetailsScreen = ({navigation, route}) => {
             style={styles.calenderIcon}
             onPress={() => {
               navigation.navigate('My Schedule');
-            }}
-          >
+            }}>
             <Image source={{uri: calenderIcon}} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>
 
+      {loading && (
+        <View style={styles.loader}>
+          <Text>Loading, please wait...</Text>
+        </View>
+      )}
+
       <View style={styles.eventCard}>
-        <EventComponent event={event} />
+        <EventComponent event={testEvent} />
         {attend ? null : (
           <TouchableOpacity
             style={styles.attendEvent}
@@ -81,7 +204,7 @@ const EventDetailsScreen = ({navigation, route}) => {
         <View style={styles.commentCardContainer}>
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={event.comments}
+            data={eventComments}
             renderItem={({item}) => <CommentComponent comment={item} />}
             keyExtractor={item => event.comments.indexOf(item)}
           />
@@ -91,12 +214,12 @@ const EventDetailsScreen = ({navigation, route}) => {
       <View style={styles.addCommentContainer}>
         <Image source={{uri: uploadImageIcon}} style={styles.icon} />
         <View style={styles.commentInputContainer}>
-          <TextInput onChangeText={text => setComment(text)} style={styles.textInput} placeholder="Type a comment" />
-          <Pressable
-            style={{paddingHorizontal: 10}}
-            onPress={() => {
-              comment ? console.log(comment) : console.log('No comment');
-            }}>
+          <TextInput
+            onChangeText={text => setComment(text)}
+            style={styles.textInput}
+            placeholder="Type a comment"
+          />
+          <Pressable style={{paddingHorizontal: 10}} onPress={addComment}>
             <Image source={{uri: sendCommenntIcon}} style={[styles.icon]} />
           </Pressable>
         </View>
@@ -108,6 +231,18 @@ const EventDetailsScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  loader: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#f7f7f7',
+    zIndex: 10,
+    top: 0,
+    left: 0,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nav: {
     borderBottomWidth: 1,
