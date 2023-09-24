@@ -102,10 +102,23 @@ const EventDetailsScreen = ({navigation, route}) => {
         ])
         .select();
 
-      console.log(data);
+      await getComments(event.id);
     } else {
       alert('Comment is empty');
     }
+  };
+
+  // Get comments
+  const getComments = async eventId => {
+    console.log('Getting comments');
+    let {data: comments, error} = await supabase
+      .from('comments')
+      .select('*')
+      .eq('event_id', eventId);
+
+    // console.log(comments);
+    // return comments;
+    setEventComments(comments);
   };
 
   useEffect(() => {
@@ -134,22 +147,9 @@ const EventDetailsScreen = ({navigation, route}) => {
       setLoading(false);
     };
 
-    // Get comments
-    const getComments = async eventId => {
-      console.log('Getting comments');
-      let {data: comments, error} = await supabase
-        .from('comments')
-        .select('*')
-        .eq('event_id', eventId);
-
-      // console.log(comments);
-      // return comments;
-      setEventComments(comments);
-    };
-
     getEventDetails();
     checkAttend();
-  }, );
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -206,7 +206,7 @@ const EventDetailsScreen = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             data={eventComments}
             renderItem={({item}) => <CommentComponent comment={item} />}
-            keyExtractor={item => event.comments.indexOf(item)}
+            keyExtractor={item => item.id}
           />
         </View>
       </View>
