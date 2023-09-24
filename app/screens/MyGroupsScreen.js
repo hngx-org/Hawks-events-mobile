@@ -4,32 +4,57 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar, FlatLis
 import { Octicons, Ionicons } from '@expo/vector-icons';
 import myGroup from '../data/group/myGroup';
 import exploreGroup from '../data/group/exploreGroups';
-import {groups} from '../data/groups';
+import { groups } from '../data/groups';
 import GroupComponent from '../components/shared/GroupComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { supabase } from '../utils/api'
 
 
 const ExploreGroup = () => {
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    async function fetchGroups() {
+      try {
+        let { data, error } = await supabase
+          .from('group')
+          .select('*');
+        if (error) {
+          console.error('Error fetching groups:', error);
+        } else {
+          setGroups(data || []); // Set an empty array if data is undefined
+        }
+      } catch (error) {
+        console.error('Error fetching groups:', error.message);
+      }
+    }
+
+    fetchGroups();
+  }, []);
+
   return (
     <View style={styles.groupComponent}>
-    <FlatList
-      data={groups}
-      renderItem={({ item }) => <GroupComponent group={item}
-      />}
-    />
-  </View>
-  )
-}
+      {groups.length > 0 ? (
+        <FlatList
+          data={groups}
+          renderItem={({ item }) => <GroupComponent group={item} />}
+        />
+      ) : (
+        <Text>No groups found.</Text>
+      )}
+    </View>
+  );
+};
 
 const MyGroup = () => {
   return (
     <View style={styles.groupComponent}>
-    <FlatList
-      data={groups}
-      renderItem={({ item }) => <GroupComponent group={item}
-      />}
-    />
-  </View>
+      <FlatList
+        data={groups}
+        renderItem={({ item }) => <GroupComponent group={item}
+        />}
+      />
+    </View>
   )
 }
 
@@ -49,24 +74,24 @@ const GroupListScreen = ({ navigation }) => {
       <StatusBar />
       <View style={styles.searchBar}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/images/back.png')} style={{marginRight: 10, width: 25, height: 25}} />
+          <Image source={require('../assets/images/back.png')} style={{ marginRight: 10, width: 25, height: 25 }} />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
           <TextInput placeholder="Search Group" style={styles.input} />
           <TouchableOpacity>
-            <Image source={require('../assets/images/search.png')}  style={{width:15, height:15}} />
+            <Image source={require('../assets/images/search.png')} style={{ width: 15, height: 15 }} />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, showExploreGroup? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(true)} >
+        <TouchableOpacity style={[styles.button, showExploreGroup ? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(true)} >
           <Text style={[styles.buttonText, showExploreGroup ? styles.exploreButtonText : styles.myGroupButtonText]}>Explore Group</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, !showExploreGroup? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(false)}>
+        <TouchableOpacity style={[styles.button, !showExploreGroup ? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(false)}>
           <Text style={[styles.buttonText, !showExploreGroup ? styles.exploreButtonText : styles.myGroupButtonText]}>My Group</Text>
         </TouchableOpacity>
       </View>
-      {showExploreGroup ? (<ExploreGroup/> ): ( <MyGroup/>)}
+      {showExploreGroup ? (<ExploreGroup />) : (<MyGroup />)}
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={handleCreateGroupPress}
@@ -116,11 +141,11 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: 'white',
     borderRadius: 30,
-    justifyContent:'space-between',
-    alignItems:'center',
-    flexDirection:'row',
-    padding:10,
-    marginTop : 10
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 10,
+    marginTop: 10
   },
   button: {
     backgroundColor: '#FF9405',
