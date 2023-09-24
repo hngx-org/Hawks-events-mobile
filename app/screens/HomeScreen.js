@@ -31,8 +31,6 @@ const HomeScreen = ({navigation}) => {
     // Navigate to the Create Event Screen when the button is pressed
     navigation.navigate('Create Event');
   };
-
-  const {user} = useAuth0();
   
 
   useEffect(() => {
