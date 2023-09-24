@@ -1,11 +1,28 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { TouchableOpacity , Text, View, Image, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import { Text, View, Image, StyleSheet } from 'react-native';
 
 
 
 const EventComponent = ({ event }) => {
+  // Destrucure the event object
+  let { title, description, start_date, start_time, location, attending } = event;
+
+  // Set attending to 0 if it's null
+  if (!attending) { attending = 0; }
+
+  // Get start date readable format
+  const startDate = new Date(Number(start_date));
+
+  // Get start time readable format
+  const startTime = new Date(Number(start_time));
+
+  // Create readable start date format
+  const date = `${startDate.getFullYear()}-${Number(startDate.getMonth()) + 1}-${startDate.getDate()}`;
+
+  // Create readable start time format
+  const time = `${startTime.getHours()}:${startTime.getMinutes()}`;
+
   // Variable for the share icon
   const shareIcon = 'https://img.icons8.com/windows/32/share-rounded.png';
   // Variable for the like icon
@@ -15,18 +32,18 @@ const EventComponent = ({ event }) => {
     <View style={styles.container}>
       {/* Event name */}
       <View style={styles.eventNameContainer}>
-        <Text style={styles.eventName}>{event.name}</Text>
+        <Text style={styles.eventName}>{ title }</Text>
         <Image source={{uri:shareIcon}} style={styles.icon} />
       </View>
       {/* Event description */}
       <View>
-        <Text style={styles.eventDescription}>{event.description}</Text>
-        <Text style={styles.eventDateTime}>{event.date} - {event.time}</Text>
-        <Text style={styles.eventLocation}>{event.location}</Text>
+        <Text style={styles.eventDescription}>{description}</Text>
+        <Text style={styles.eventDateTime}>{date} - {time}</Text>
+        <Text style={styles.eventLocation}>{location}</Text>
       </View>
       {/* Attendees */}
       <View style={styles.eventAttendeeContainer}>
-        <Text style={styles.attendingCount}> <Image source={require('../../assets/images/people.png')}/> {event.attending} attending</Text>
+        <Text style={styles.attendingCount}> <Image source={require('../../assets/images/people.png')}/> {attending} attending</Text>
         <Image source={{uri: likeIcon}} style={styles.icon} />
       </View>
     </View>
