@@ -38,13 +38,19 @@ const CreateEventScreen = ({ navigation }) => {
 }
   const [modalVisible, setModalVisible] = useState(false);
 
+  const nowDate = new Date()
+  const formattedDate = new Date(date?.nativeEvent?.timestamp)
+  const time = formattedDate.getHours()+' '+formattedDate.getMinutes()+' '+formattedDate.getSeconds()
+
+  console.log(formattedDate, time, nowDate)
+
   return (
     <ScrollView>
     <View style={styles.container}>
     <View style={styles.container2}>
           <AppInput label='Event Name' setText={setEventName}/>
           <AppInput label='Description' multiline={true} setText={setDescription} numberOfLines={3}/>
-          <DateSelect label='Start Date' setDate={setDate}/>
+          <DateSelect value={formattedDate||'0-0-0'} label='Start Date' setDate={setDate}/>
           <AppInput label='Location' setText={setLocation}/>
           <AppSelect label='Select Group' options={options} value={value} setOptions={setOptions} setValue={setValue}/>
           <AppButton onPress={createEvent} title='Create' />
