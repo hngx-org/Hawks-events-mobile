@@ -49,7 +49,6 @@ const ScheduleScreen = ({navigation}) => {
         markedDates={markedDates}
         theme={customTheme}
       />
-      <EventComponent event={item} />
       {/* <EventComponent event={item} /> */}
     </ScrollView>
   );

@@ -8,7 +8,7 @@ import { supabase } from '../../utils/api';
 const GroupComponent = (props) => {
   const [groupEvents, setGroupEvents] = useState([]);
 
-  let { title, members } = props.group;
+  const { title, members } = props.group;
 
   const navigation = useNavigation();
 
@@ -59,7 +59,7 @@ const GroupComponent = (props) => {
           <View style={styles.circle} />
           <View style={styles.titleContainer}>
             <Text style={styles.groupName}>{title}</Text>
-            <Text style={styles.groupMembers}>{`${members ? members : 0} Members`}</Text>
+            <Text style={styles.groupMembers}>{`${members} Members`}</Text>
           </View>
           <Text style={styles.groupEvents}>{`${groupEvents.length} upcoming event`}</Text>
         </View>

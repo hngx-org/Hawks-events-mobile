@@ -5,29 +5,20 @@ import {createStackNavigator} from '@react-navigation/stack';
 import userIcon from '../assets/images/userIcon.png';
 import {useAuth0} from 'react-native-auth0';
 
-
-
 const SettingsScreen = ({navigation}) => {
-    const {clearSession, user} = useAuth0();
-  
+  const {clearSession, user} = useAuth0();
+
   const handleLogout = async () => {
     // Implement your login logic here, e.g., Google Authentication
     // Once logged in, navigate to the Home screen or the main part of your app
 
     try {
-        await clearSession();
-        navigation.navigate('Login'); // Replace 'Home' with the actual screen name
+      await clearSession();
+      navigation.navigate('Login'); // Replace 'Home' with the actual screen name
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
-
-    
   };
-  
-
- 
-
-  
 
   return (
     <View style={styles.container}>
@@ -52,24 +43,45 @@ const SettingsScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
+    padding: 20,
+    gap: 10,
+    backgroundColor: '#fff',
   },
   image: {
-    width: 200, // Adjust the width as needed
-    height: 200, // Adjust the height as needed
+    width: 70, // Adjust the width as needed
+    height: 70, // Adjust the height as needed
     resizeMode: 'contain', // You can adjust the resizeMode as needed
   },
-  loginButton: {
-    backgroundColor: '#007bff', // Replace with your preferred button color
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
+  imageContainer: {
+    width: 80,
+    borderRadius: '50%',
   },
-  buttonText: {
-    color: 'black', // Button text color
-    fontSize: 18,
+  displayBox: {
+    flexDirection: 'row',
+    height: 70,
+  },
+  logout: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  nameText: {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 16,
+    letterSpacing: 0.005,
+    textAlign: 'left',
+    width: 123,
+    height: 16,
+  },
+  emailText: {
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 18,
+    letterSpacing: 0.0025,
+    textAlign: 'left',
   },
 });
 

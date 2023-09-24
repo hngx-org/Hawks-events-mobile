@@ -13,65 +13,53 @@ import {
 import EventComponent from '../components/shared/EventComponent';
 import {AntDesign} from '@expo/vector-icons';
 import search from '../assets/images/SearchIcons.png';
+import { groups } from '../data/groups';
 import {useAuth0} from 'react-native-auth0';
-import { supabase } from '../utils/api';
+import { supabase } from '../utils/api'
 
 const HomeScreen = ({navigation}) => {
   // Get user from Google auth
   const {user} = useAuth0();
-  // Store the all events from the database
-  const [events, setEvents] = useState([]);
   // Store event group title
   const [groupTitle, setGroupTitle] = useState('');
   // Store event group members
   const [groupMembers, setGroupMembers] = useState(0);
   // user can switch between everyone and friends
   const [switchButton, setSwitchButton] = useState(false);
+  const [events, setEvents] = useState([]);
   const handleCreateEventPress = () => {
     // Navigate to the Create Event Screen when the button is pressed
     navigation.navigate('Create Event');
   };
   
-
   useEffect(() => {
-    const getEventDetails = async () => {
-      let {data, error} = await supabase
-        .from('events')
-        .select('*');
-      
-      // console.log(data);
-      getEventGroup(data);
-      setEvents(data || []);
-    };
-
-    const getEventGroup = async (eventIds) => {
-      eventIds.forEach(async (eventId) => {
-        let {data, error} = await supabase
-          .from('group_event_relat')
+    async function fetchEvents() {
+      try {
+        let { data, error } = await supabase
+          .from('events')
           .select('*');
-        console.log('Getting group');
-        data.forEach((d) => {
-          if (d.event_ids.includes(eventId.id)) {
-            console.log('Found');
-            getGroupDetails(d.group_id);
-          }
-        });
-      });
-    };
+        if (error) {
+          console.error('Error fetching groups:', error);
+        } else {
+          setEvents(data || []); // Set an empty array if data is undefined
+        }
+      } catch (error) {
+        console.error('Error fetching groups:', error.message);
+      }
+    }
 
-    const getGroupDetails = async (groupId) => {
-      let {data, error} = await supabase
-        .from('group')
-        .select('*')
-        .eq('id', groupId);
-      console.log('Getting group details');
-      console.log(data[0]);
-      setGroupTitle(data[0].title);
-      setGroupMembers(data[0].members);
-    };
+    fetchEvents();
+  }, []);
 
-    getEventDetails();
-  }, [])
+
+  const getGroupName = (eventId) => {
+    const groupDetails = groups.find((group) => group.events.includes(eventId));
+    return groupDetails.name;
+  }
+  const getGroupmembers = (eventId) => {
+    const groupDetails = groups.find((group) => group.events.includes(eventId));
+    return groupDetails.members;
+  }
 
   return (
     //  <View style={styles.container}>
