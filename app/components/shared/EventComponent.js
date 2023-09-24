@@ -6,6 +6,7 @@ import { Text, View, Image, StyleSheet } from 'react-native';
 
 const EventComponent = ({ event }) => {
   // Destrucure the event object
+  // console.log(event);
   let { title, description, start_date, start_time, location, attending } = event;
 
   // Set attending to 0 if it's null

@@ -4,10 +4,10 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar, FlatLis
 import { Octicons, Ionicons } from '@expo/vector-icons';
 import myGroup from '../data/group/myGroup';
 import exploreGroup from '../data/group/exploreGroups';
-import { groups } from '../data/groups';
+// import { groups } from '../data/groups';
 import GroupComponent from '../components/shared/GroupComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { supabase } from '../utils/api'
+import { supabase } from '../utils/api';
 
 
 const ExploreGroup = () => {

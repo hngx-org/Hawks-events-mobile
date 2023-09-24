@@ -149,7 +149,7 @@ const EventDetailsScreen = ({navigation, route}) => {
 
     getEventDetails();
     checkAttend();
-  }, );
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -206,7 +206,7 @@ const EventDetailsScreen = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             data={eventComments}
             renderItem={({item}) => <CommentComponent comment={item} />}
-            keyExtractor={item => event.comments.indexOf(item)}
+            keyExtractor={item => item.id}
           />
         </View>
       </View>

@@ -1,24 +1,56 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {events} from '../../data/event';
+// import {events} from '../../data/event';
+import { supabase } from '../../utils/api';
 
 const GroupComponent = (props) => {
-  // Check if props.group and props.group.events exist
-  const groupEvents =
-    props.group && props.group.events
-      ? events.filter((event) => props.group.events.includes(event.id))
-      : [];
+  const [groupEvents, setGroupEvents] = useState([]);
 
-  const { name, members } = props.group;
+  let { title, members } = props.group;
 
   const navigation = useNavigation();
 
   const handleGroupPress = () => {
     // Navigate to the group details screen when clicked
-    navigation.navigate('Group Details', { name, members, groupEvents });
+    navigation.navigate('Group Details', { title, members, groupEvents });
   };
+
+  const getGroupEvents = async () => {
+    try {
+      let { data, error } = await supabase
+        .from('group_event_relat')
+        .select('*')
+        .eq('group_id', props.group.id);
+      console.log(data);
+      if (error) {
+        console.error('Error fetching group events:', error);
+      } else {
+        const groupEventIds = data[0].event_ids;
+        console.log(groupEventIds);
+        const groupEventss = [];
+        groupEventIds.forEach(async (eventId) => {
+          let { data:events, error } = await supabase
+            .from('events')
+            .select('*')
+            .eq('id', eventId);
+          if (error) {
+            console.error('Error fetching group events:', error);
+          }
+
+          groupEventss.push(events[0]);
+        });
+        setGroupEvents(groupEventss);
+      }
+    } catch (error) {
+      console.error('Error fetching group events:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    getGroupEvents();
+  }, []);
 
   return (
     <View style={{ padding: 10 }}>
@@ -26,8 +58,8 @@ const GroupComponent = (props) => {
         <View style={styles.container}>
           <View style={styles.circle} />
           <View style={styles.titleContainer}>
-            <Text style={styles.groupName}>{name}</Text>
-            <Text style={styles.groupMembers}>{`${members} Members`}</Text>
+            <Text style={styles.groupName}>{title}</Text>
+            <Text style={styles.groupMembers}>{`${members ? members : 0} Members`}</Text>
           </View>
           <Text style={styles.groupEvents}>{`${groupEvents.length} upcoming event`}</Text>
         </View>

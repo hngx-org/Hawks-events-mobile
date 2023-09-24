@@ -13,7 +13,9 @@ import EventComponent from '../components/shared/EventComponent';
 
 // Add the group prop to the component when it's ready and remove the group constant created
 const GroupDetailsScreen = ({navigation, route}) => {
-  const {name, members, groupEvents: events} = route.params;
+  const {title:name, members, groupEvents: events} = route.params;
+  console.log('Group Events');
+  console.log(events);
   // Variable to check if the user has joined the group
   const [joined, setJoined] = useState(false);
   // Variable for navigation arrow icon
@@ -33,7 +35,7 @@ const GroupDetailsScreen = ({navigation, route}) => {
       <StatusBar />
       <View style={styles.nav}>
         <TouchableOpacity
-          style={{padding: 7}}
+          style={{padding:7}}
           onPress={() => navigation.goBack()}>
           <Image source={{uri: arrowIcon}} style={styles.icon} />
         </TouchableOpacity>
@@ -53,7 +55,7 @@ const GroupDetailsScreen = ({navigation, route}) => {
           data={events}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => handleEventPress(item, name, members)}>
+              onPress={() => handleEventPress(item)}>
               <EventComponent
                 event={item}
                 name={name}
@@ -61,7 +63,7 @@ const GroupDetailsScreen = ({navigation, route}) => {
               />
             </TouchableOpacity>
           )}
-          keyExtractor={item => events.indexOf(item)}
+          keyExtractor={item => item.id}
         />
       </View>
 
