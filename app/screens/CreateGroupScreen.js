@@ -17,47 +17,44 @@ const CreateGroupScreen = ({ navigation }) => {
 
   const {user} = useAuth0();
   // Function to handle the group creation
+  const [details, setDetails] = useState({
+    eventName: '',
+  });
 
-  const createGroup = async (groupname, owner) => {
-    const uuid = await UUIDGenerator.getRandomUUID();
-    const { data, error } = await supabase
-    .from('group')
-    .insert({ id: uuid, name: groupname, members:0, upcoming_events:0, owner: owner })
-    .select();
-
-    console.log(error);
-}
-
-
-  const handleCreateGroup = async () => {
-    setModalVisible(true);
-    // Validate the group name input (you can add more validation logic here)
-
-
-    if (groupName.trim() === '') {
-      // Show an error message or handle invalid input
-      alert('Please enter a valid group name');
-      setModalVisible(false);
-      return;
+  async function createGroup() {
+    try {
+      const {data} = await supabase.from('events').insert({
+        id: UUIDGenerator.getRandomUUID(),
+        members: 1,
+        creator_email: 'mail@mail.com',
+        title: details.eventName,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+      setModalVisible(true);
+      setDetails({
+        eventName: '',
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
     }
-
-    await createGroup(groupName, user.email);
-
-    // Group creation logic goes here
-    // Once the group is created, you can show the success modal
-    setModalVisible(false);
-  };
-
+  }
 
  
   return (
     <ScrollView>
     <View style={styles.container}>
     <View style={styles.container2}>
-          <AppInput label='Group Name' setText={setGroupName}/>
+    <AppInput
+            label="Group Name"
+            setText={val => {
+              setDetails({...details, eventName: val});
+            }}
+          />         
           <AppButton title='Create'
-          onPress={handleCreateGroup} />
-          <AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='View Reward' msg='Group created successfully' />
+          onPress={createGroup} />
+          <AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='Close' msg='Group created successfully' />
     </View>
    {/*  <View style={{
     paddingHorizontal: 20,
