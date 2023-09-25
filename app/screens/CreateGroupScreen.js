@@ -9,23 +9,26 @@ import AppModal from '../components/Modal';
 import {useAuth0} from 'react-native-auth0';
 import UUIDGenerator from 'react-native-uuid-generator';
 import { supabase } from '../utils/api'
+import uuid from 'react-native-uuid';
 
 
 const CreateGroupScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const {user} = useAuth0();
-  // Function to handle the group creation
+  
   const [details, setDetails] = useState({
     eventName: '',
   });
+  // Function to handle the group creation
+
 
   async function createGroup() {
     try {
-      const {data} = await supabase.from('events').insert({
-        id: UUIDGenerator.getRandomUUID(),
+      const data = await supabase.from('group').insert({
+        id: uuid.v4(),
         members: 1,
-        creator_email: 'mail@mail.com',
+        creator_email: user.email,
         title: details.eventName,
         created_at: new Date(),
         updated_at: new Date(),

@@ -17,13 +17,39 @@ import AppButton from '../components/shared/AppButton';
 import AppModal from '../components/Modal';
 import {supabase} from '../utils/api';
 import {useAuth0} from 'react-native-auth0';
-import UUIDGenerator from 'react-native-uuid-generator';
+import uuid from 'react-native-uuid';
 
 const CreateEventScreen = ({navigation}) => {
-  const [end_date, setEnd_date] = useState('0-0-0');
-  const [start_date, setStart_date] = useState('0-0-0');
+  const [end_date, setEnd_date] = useState(0);
+  const [start_date, setStart_date] = useState(0);
+  const [options, setOptions] = useState([{label: 'Group 1', value: 1}]);
 
-  useEffect(() => {}, []);
+  const {user} = useAuth0();
+
+  useEffect(() => {
+    async function fetchGroups() {
+      try {
+        let { data, error } = await supabase
+          .from('group')
+          .select('*');
+        if (error) {
+          console.error('Error fetching groups:', error);
+        } else {
+          let optionsss = []
+          data.forEach((group) =>{
+              optionsss.push({label : group.title, value: group.id})
+            }
+          )
+          setOptions(optionsss);
+        }
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      }
+    }
+
+    fetchGroups();
+  }, []);
+
 
   const [details, setDetails] = useState({
     description: '',
@@ -33,15 +59,17 @@ const CreateEventScreen = ({navigation}) => {
   });
 
   const [value, setValue] = useState('');
-  const [options, setOptions] = useState([{label: 'Group 1', value: 1}]);
+
+  
 
   async function addEvent() {
     try {
-      const {data} = await supabase.from('events').insert({
-        id: UUIDGenerator.getRandomUUID(),
+      const data = await supabase.from('events').insert({
+        id: uuid.v4(),
         start_time: start_date,
         end_time: end_date,
         title: details.eventName,
+        creator_email: user.email,
         location: details.location,
         description: details.description,
         created_at: new Date(),
@@ -55,8 +83,8 @@ const CreateEventScreen = ({navigation}) => {
         location: '',
         date: '',
       });
-      setEnd_date('0-0-0');
-      setStart_date('0-0-0');
+      setEnd_date(0);
+      setStart_date(0);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -64,12 +92,10 @@ const CreateEventScreen = ({navigation}) => {
   }
   const [modalVisible, setModalVisible] = useState(false);
 
-  const formattedDate = new Date(date?.nativeEvent?.timestamp);
-
-  console.log(formattedDate);
+ 
 
   return (
-    <ScrollView>
+    <ScrollView >
       <View style={styles.container}>
         <View style={styles.container2}>
           <AppInput
@@ -87,13 +113,11 @@ const CreateEventScreen = ({navigation}) => {
             numberOfLines={3}
           />
           <DateSelect
-            value={formattedDate || '0-0-0'}
             label="Start Date"
             setDate={setStart_date}
             date={start_date}
           />
           <DateSelect
-            value={formattedDate || '0-0-0'}
             label="End Date"
             setDate={setEnd_date}
             date={end_date}
@@ -135,7 +159,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
-    height: (phoneHeight / 2) * 1.81,
   },
   container2: {
     flex: 1,
