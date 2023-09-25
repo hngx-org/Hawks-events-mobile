@@ -12,7 +12,7 @@ const GroupComponent = (props) => {
 
   const navigation = useNavigation();
 
-  const handleGroupPress = () => {
+  const handleGroupPress = () => {``
     // Navigate to the group details screen when clicked
     navigation.navigate('Group Details', { title, members, groupEvents });
   };
@@ -35,11 +35,11 @@ const GroupComponent = (props) => {
             .from('events')
             .select('*')
             .eq('id', eventId);
-          if (error) {
+          if (error || events[0] === undefined) {
             console.error('Error fetching group events:', error);
+          } else {
+            groupEventss.push(events[0]);
           }
-
-          groupEventss.push(events[0]);
         });
         setGroupEvents(groupEventss);
       }

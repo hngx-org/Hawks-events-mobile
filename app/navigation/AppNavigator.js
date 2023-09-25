@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 const AppNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Main" component={MainNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="Group Details" component={GroupDetailsScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Create Group" component={CreateGroupScreen} options={{ title: 'Create Group' }} />
