@@ -43,6 +43,25 @@ const GroupListScreen = ({ navigation }) => {
     navigation.navigate('Create Group');
   };
 
+  useEffect(() => {
+    async function fetchGroups() {
+      try {
+        let { data, error } = await supabase
+          .from('group')
+          .select('*');
+        if (error) {
+          console.error('Error fetching groups:', error);
+        } else {
+          setGroups(data || []); // Set an empty array if data is undefined
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      }
+    }
+
+    fetchGroups();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

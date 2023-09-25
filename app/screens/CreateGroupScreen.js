@@ -9,6 +9,7 @@ import AppModal from '../components/Modal';
 import {useAuth0} from 'react-native-auth0';
 import UUIDGenerator from 'react-native-uuid-generator';
 import { supabase } from '../utils/api'
+import uuid from 'react-native-uuid';
 
 
 const CreateGroupScreen = ({ navigation }) => {
@@ -18,27 +19,23 @@ const CreateGroupScreen = ({ navigation }) => {
   const {user} = useAuth0();
   // Function to handle the group creation
 
-  const createGroup = async (groupname, owner) => {
-    const uuid = await UUIDGenerator.getRandomUUID();
-    const { data, error } = await supabase
-    .from('group')
-    .insert({ id: uuid, name: groupname, members:0, upcoming_events:0, owner: owner })
-    .select();
-
-    console.log(error);
-}
-
-
-  const handleCreateGroup = async () => {
-    setModalVisible(true);
-    // Validate the group name input (you can add more validation logic here)
-
-
-    if (groupName.trim() === '') {
-      // Show an error message or handle invalid input
-      alert('Please enter a valid group name');
-      setModalVisible(false);
-      return;
+  async function createGroup() {
+    try {
+      const data = await supabase.from('group').insert({
+        id: uuid.v4(),
+        members: 1,
+        creator_email: user.email,
+        title: details.eventName,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+      setModalVisible(true);
+      setDetails({
+        eventName: '',
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
     }
 
     await createGroup(groupName, user.email);

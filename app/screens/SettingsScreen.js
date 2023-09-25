@@ -30,23 +30,31 @@ const SettingsScreen = ({navigation}) => {
   
 
   return (
-    <View style={styles.container}>
-      <View style={styles.displayBox}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: user.picture}} />
-        </View>
-        <View style={styles.displayInner}>
-          <Text style={styles.nameText}>{user.name}</Text>
-          <Text style={styles.emailText}>{user.email}</Text>
-        </View>
-      </View>
-      <TouchableOpacity onPress={handleLogout}>
-        <View style={styles.logout}>
-          <Image source={require('../assets/images/logout.png')} />
-          <Text style={styles.logoutText}>Logout</Text>
-        </View>
-      </TouchableOpacity>
+   
+      <View style={styles.container}>
+         {user ? (
+          <>
+            <View style={styles.displayBox}>
+              <View style={styles.imageContainer}>
+                <Image style={styles.image} source={{uri: user.picture}} />
+              </View>
+              <View style={styles.displayInner}>
+                <Text style={styles.nameText}>{user.name}</Text>
+                <Text style={styles.emailText}>{user.email}</Text>
+              </View>
+            </View>
+            <TouchableOpacity onPress={handleLogout}>
+              <View style={styles.logout}>
+                <Image source={require('../assets/images/logout.png')} />
+                <Text style={styles.logoutText}>Logout</Text>
+              </View>
+            </TouchableOpacity>
+          </>
+      ) : null }
     </View>
+    
+    
+    
   );
 };
 

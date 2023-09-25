@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import EventComponent from '../components/shared/EventComponent';
 
+
 // Add the group prop to the component when it's ready and remove the group constant created
 const GroupDetailsScreen = ({navigation, route}) => {
   const {name, members, groupEvents: events} = route.params;

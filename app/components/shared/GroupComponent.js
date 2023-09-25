@@ -15,6 +15,45 @@ const GroupComponent = (props) => {
     navigation.navigate('Group Details', {name, members, groupEvents});
   };
 
+<<<<<<< Updated upstream
+=======
+  const getGroupEvents = async () => {
+    try {
+      let { data, error } = await supabase
+        .from('group_event_relat')
+        .select('*')
+        .eq('group_id', props.group.id);
+      console.log(data);
+      if (error) {
+        console.error('Error fetching group events:', error);
+      } else {
+        const groupEventIds = data[0].event_ids;
+        console.log(groupEventIds);
+        const groupEventss = [];
+        groupEventIds.forEach(async (eventId) => {
+          let { data:events, error } = await supabase
+            .from('events')
+            .select('*')
+            .eq('id', eventId);
+            console.log("Hello")
+            console.log(eventId)
+          if (eventId !==  undefined) {
+            if(events[0] !== undefined){
+              groupEventss.push(events[0]);
+            }
+          }
+        });
+        setGroupEvents(groupEventss);
+      }
+    } catch (error) {
+      console.error('Error fetching group events:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    getGroupEvents();
+  }, []);
+>>>>>>> Stashed changes
 
   return (
     <View style={{padding: 10}}>
