@@ -7,6 +7,12 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 const DateSelect = ({label = 'label', setDate, date}) => {
   const [open, setOpen] = useState(false);
 
+  const handleOnChange = (val) =>{
+    setDate(val.nativeEvent.timestamp);
+    setOpen(false);
+  }
+    
+
   return (
     <View style={{width: '100%'}}>
       <Text style={styles.label}>{label}</Text>
@@ -23,10 +29,7 @@ const DateSelect = ({label = 'label', setDate, date}) => {
         <RNDateTimePicker
           mode="date"
           value={new Date()}
-          onChange={val => {
-            setDate(val);
-            setOpen(false);
-          }}
+          onChange={(val) => handleOnChange(val)}
         />
       )}
     </View>
