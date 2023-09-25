@@ -14,10 +14,14 @@ import uuid from 'react-native-uuid';
 
 const CreateGroupScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [groupName, setGroupName] = useState(''); 
 
   const {user} = useAuth0();
+  
+  const [details, setDetails] = useState({
+    eventName: '',
+  });
   // Function to handle the group creation
+
 
   async function createGroup() {
     try {
@@ -37,24 +41,22 @@ const CreateGroupScreen = ({ navigation }) => {
     } catch (err) {
       console.log(err);
     }
-
-    await createGroup(groupName, user.email);
-
-    // Group creation logic goes here
-    // Once the group is created, you can show the success modal
-    setModalVisible(false);
-  };
-
+  }
 
  
   return (
     <ScrollView>
     <View style={styles.container}>
     <View style={styles.container2}>
-          <AppInput label='Group Name' setText={setGroupName}/>
+    <AppInput
+            label="Group Name"
+            setText={val => {
+              setDetails({...details, eventName: val});
+            }}
+          />         
           <AppButton title='Create'
-          onPress={handleCreateGroup} />
-          <AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='View Reward' msg='Group created successfully' />
+          onPress={createGroup} />
+          <AppModal modalVisible={modalVisible} setModalVisible={setModalVisible} btnText='Close' msg='Group created successfully' />
     </View>
    {/*  <View style={{
     paddingHorizontal: 20,

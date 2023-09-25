@@ -81,11 +81,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-<<<<<<< HEAD
-    namespace 'com.hng.wetindeysup'
-=======
-    namespace "com.main"
->>>>>>> master
+    namespace "com.hng.wetindeysup"
     defaultConfig {
 // @generated begin react-native-auth0-manifest-placeholder - expo prebuild (DO NOT MODIFY) sync-d1cbf221eb23cec0dec079bf8c615546b0529a99
 manifestPlaceholders = [auth0Domain: "dev-z3pimpy9.us.auth0.com", auth0Scheme: "com.hng.wetindeysup.auth0"]

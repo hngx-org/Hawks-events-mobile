@@ -1,42 +1,45 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar, FlatList, Image } from 'react-native';
-import { Octicons, Ionicons } from '@expo/vector-icons';
-import myGroup from '../data/group/myGroup';
-import exploreGroup from '../data/group/exploreGroups';
-import {groups} from '../data/groups';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar, FlatList, Image, ActivityIndicator } from 'react-native';
 import GroupComponent from '../components/shared/GroupComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { supabase } from '../utils/api';
 
 
-const ExploreGroup = () => {
+const ExploreGroup = ({groups}) => {
+
   return (
     <View style={styles.groupComponent}>
-    <FlatList
-      data={groups}
-      renderItem={({ item }) => <GroupComponent group={item}
-      />}
-    />
-  </View>
-  )
-}
+      {groups.length > 0 ? (
+        <FlatList
+          data={groups}
+          renderItem={({ item }) => <GroupComponent group={item} />}
+        />
+      ) : (
+        <Text>No groups found.</Text>
+      )}
+    </View>
+  );
+};
 
-const MyGroup = () => {
+const MyGroup = ({groups}) => {
   return (
     <View style={styles.groupComponent}>
-    <FlatList
-      data={groups}
-      renderItem={({ item }) => <GroupComponent group={item}
-      />}
-    />
-  </View>
+      <FlatList
+        data={groups}
+        renderItem={({ item }) => <GroupComponent group={item}
+        />}
+      />
+    </View>
   )
 }
 
 
 const GroupListScreen = ({ navigation }) => {
-
-  const [showExploreGroup, setShowExploreGroup] = useState(true)
+  const [groups, setGroups] = useState([]);
+  const [showExploreGroup, setShowExploreGroup] = useState(true);
+  // Set the loading state
+  const [loading, setLoading] = useState(true);
 
   const handleCreateGroupPress = () => {
     // Navigate to the Create Event Screen when the button is pressed
@@ -56,7 +59,7 @@ const GroupListScreen = ({ navigation }) => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Error fetching groups:', error);
+        console.error('Error fetching groups:', error.message);
       }
     }
 
@@ -66,26 +69,31 @@ const GroupListScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
+      {loading && (
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" color="#FF9405" />
+        </View>
+      )}
       <View style={styles.searchBar}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/images/back.png')} style={{marginRight: 10, width: 25, height: 25}} />
+          <Image source={require('../assets/images/back.png')} style={{ marginRight: 10, width: 25, height: 25 }} />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
           <TextInput placeholder="Search Group" style={styles.input} />
           <TouchableOpacity>
-            <Image source={require('../assets/images/search.png')}  style={{width:15, height:15}} />
+            <Image source={require('../assets/images/search.png')} style={{ width: 15, height: 15 }} />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, showExploreGroup? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(true)} >
+        <TouchableOpacity style={[styles.button, showExploreGroup ? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(true)} >
           <Text style={[styles.buttonText, showExploreGroup ? styles.exploreButtonText : styles.myGroupButtonText]}>Explore Group</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, !showExploreGroup? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(false)}>
+        <TouchableOpacity style={[styles.button, !showExploreGroup ? styles.exploreButton : styles.myGroupButton]} onPress={() => setShowExploreGroup(false)}>
           <Text style={[styles.buttonText, !showExploreGroup ? styles.exploreButtonText : styles.myGroupButtonText]}>My Group</Text>
         </TouchableOpacity>
       </View>
-      {showExploreGroup ? (<ExploreGroup/> ): ( <MyGroup/>)}
+      {showExploreGroup ? (<ExploreGroup groups={groups}/>) : (<MyGroup groups={groups} />)}
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={handleCreateGroupPress}
@@ -101,17 +109,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FAFAFA',
     alignItems: 'center',
-    padding: 10
+  },
+  loader: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#f7f7f7',
+    zIndex: 10,
+    top: 0,
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   searchBar: {
     width: '100%',
-    height: 60,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: 'rgba(230, 233, 240, 1)',
-    paddingHorizontal: 10
   },
   inputContainer: {
     height: 32,
@@ -122,48 +140,49 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 15
+    borderRadius: 15,
   },
   input: {
     flex: 1,
     padding: 5,
     fontWeight: '400',
-    fontSize: 12
+    fontSize: 12,
   },
   buttonContainer: {
-    width: '100%',
-    height: 60,
+    marginHorizontal: 20,
     backgroundColor: 'white',
     borderRadius: 30,
-    justifyContent:'space-between',
-    alignItems:'center',
-    flexDirection:'row',
-    padding:10,
-    marginTop : 10
+    borderWidth: 1,
+    borderColor: '#E3E5E6',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 7,
+    marginTop: 5,
   },
   button: {
     backgroundColor: '#FF9405',
     width: '50%',
-    height: 44,
+    paddingVertical: 17,
     borderRadius: 60,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   exploreButton: {
     backgroundColor: '#FF9405',
   },
   myGroupButton: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   buttonText: {
     fontWeight: '700',
-    color: 'white'
+    color: 'white',
   },
   exploreButtonText: {
-    color: '#fff'
+    color: '#fff',
   },
   myGroupButtonText: {
-    color: '#000'
+    color: '#000',
   },
   floatingButton: {
     position: 'absolute',
@@ -183,7 +202,8 @@ const styles = StyleSheet.create({
   },
   groupComponent: {
     width: '100%',
-  }
+    paddingHorizontal: 10,
+  },
 });
 
 export default GroupListScreen;

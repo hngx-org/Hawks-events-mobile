@@ -3,7 +3,14 @@ import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
 function CommentComponent({comment}) {
-  const {name, comment: commentText, timestamp, image} = comment;
+  const {user_name, body: commentText, created_at, updated_at, image} = comment;
+  let time;
+  // Check if the comment has been updated
+  if (updated_at) { time = new Date(Number(updated_at));}
+  // If not, use the created_at time
+  else { time = new Date(Number(created_at)); }
+  // Create readable time format
+  const timestamp = `${time.getFullYear()}-${Number(time.getMonth()) + 1}-${time.getDate()}`;
 
   return (
     <View style={styles.container}>
@@ -13,7 +20,7 @@ function CommentComponent({comment}) {
       {/* Comment Details */}
       <View style={styles.commentDetails}>
         <View style={styles.commentHeader}>
-          <Text style={styles.commentName}>{name}</Text>
+          <Text style={styles.commentName}>{user_name}</Text>
           <Text style={styles.commentTime}>{timestamp}</Text>
         </View>
         <Text style={styles.commentText}>{commentText}</Text>
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
   },
   commentText: {
     fontSize: 12,
-  }
+  },
 });
 
 export default CommentComponent;

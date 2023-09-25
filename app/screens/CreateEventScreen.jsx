@@ -50,6 +50,7 @@ const CreateEventScreen = ({navigation}) => {
     fetchGroups();
   }, []);
 
+
   const [details, setDetails] = useState({
     description: '',
     eventName: '',
@@ -58,6 +59,7 @@ const CreateEventScreen = ({navigation}) => {
   });
 
   const [value, setValue] = useState('');
+
   
 
   async function addEvent() {

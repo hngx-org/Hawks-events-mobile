@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import loginImage from '../assets/images/login.png';
  // Replace with your login image
@@ -29,15 +30,15 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
         <View style={styles.signupButton}>
           <Image source={require('../assets/images/google-icon.png')} style={styles.googleIcon} />
-          <Text style={styles.buttonText}>Signup with Google</Text>
+          <Text style={styles.buttonText}>Continue with Google</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
+      {/* <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
         <View style={styles.loginButton}>
           <Image source={require('../assets/images/google-icon.png')} style={styles.googleIcon} />
           <Text style={styles.buttonText}>Login with Google</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     lineHeight: 42,
     letterSpacing: 0.25,
-    alignSelf: 'right',
+    alignSelf: 'flex-start',
     marginTop: 40,
   },
   descriptionText: {
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     letterSpacing: 0.5,
     marginTop: 20,
-    alignSelf: 'right',
+    alignSelf: 'flex-start',
 
   },
   touchable: {
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 8,
-    marginTop: 20
+    marginTop: 20,
   },
   loginButton: {
     flexDirection: 'row',

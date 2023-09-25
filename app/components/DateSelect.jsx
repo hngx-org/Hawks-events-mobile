@@ -4,7 +4,7 @@ import {phoneFontScale, phoneHeight, phoneWidth} from '../utils/dimensions';
 import {TouchableWithoutFeedback} from 'react-native';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 
-const DateSelect = ({label = 'label', setDate}) => {
+const DateSelect = ({label = 'label', setDate, date}) => {
   const [open, setOpen] = useState(false);
 
   const handleOnChange = (val) =>{
@@ -22,7 +22,7 @@ const DateSelect = ({label = 'label', setDate}) => {
           setOpen(true);
         }}>
         <View style={styles.main}>
-          <Text style={styles.text}>Select Date</Text>
+          <Text style={styles.text}>Select Date: {date && date}</Text>
         </View>
       </TouchableWithoutFeedback>
       {open && (
